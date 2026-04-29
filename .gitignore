@@ -1,0 +1,61 @@
+# ========== Unity 기본 ==========
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+
+# MemoryCaptures
+MemoryCaptures/
+
+# Asset Import Pipeline
+Assets/AssetStoreTools*
+
+# ========== Rider / VS / IDE ==========
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# VSCode
+.vscode/
+
+# ========== OS ==========
+.DS_Store
+Thumbs.db
+
+# ========== Unity 자동 생성 ==========
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Crash reports
+sysinfo.txt
+
+# 빌드 결과물
+*.apk
+*.aab
+*.unitypackage
+
+# Addressables 빌드
+ServerData/
+
+# ========== 커스텀 제외 ==========
+# 요청: Assets/Imported 폴더 전체 제외
+Assets/Imported/
+
+# 만약 meta도 같이 제외하려면 (보통은 유지 권장)
+# Assets/Imported.meta
+# Assets/Imported/**/*.meta
