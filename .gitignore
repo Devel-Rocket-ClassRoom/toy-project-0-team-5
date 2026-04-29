@@ -1,24 +1,53 @@
-# ========== Unity 기본 ==========
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-UserSettings/
+####################
+# Unity
+####################
+# 자동 생성 폴더 (빌드/캐시)
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Ll]ogs/
+**/[Uu]ser[Ss]ettings/
 
-# MemoryCaptures
-MemoryCaptures/
+# 메모리 캡처 (용량 크고 민감한 데이터 포함 가능)
+**/[Mm]emoryCaptures/
 
-# Asset Import Pipeline
-Assets/AssetStoreTools*
+# 녹화 파일 (용량 큼)
+**/[Rr]ecordings/
 
-# ========== Rider / VS / IDE ==========
-.vs/
-.idea/
+# Asset Store 플러그인 (필요시 주석 해제)
+# /[Aa]ssets/AssetStoreTools*
+
+# Addressables 패킹 결과물
+**/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Android 스트리밍 에셋 자동 생성
+**/[Aa]ssets/[Ss]treamingAssets/aa.meta
+**/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# 크래시 리포트
+sysinfo.txt
+
+# Crashlytics
+crashlytics-build.properties
+
+# 빌드 산출물
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+####################
+# C# / IDE
+####################
+# Visual Studio / Rider 자동 생성 솔루션 및 프로젝트 파일
+**/ExportedObj/
+.consulo/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -26,36 +55,90 @@ Assets/AssetStoreTools*
 *.pidb
 *.booproj
 *.svd
-
-# VSCode
-.vscode/
-
-# ========== OS ==========
-.DS_Store
-Thumbs.db
-
-# ========== Unity 자동 생성 ==========
-*.pidb
 *.pdb
 *.mdb
 *.opendb
 *.VC.db
 
-# Crash reports
-sysinfo.txt
+# Unity가 생성하는 디버그 메타 파일
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
 
-# 빌드 결과물
-*.apk
-*.aab
-*.unitypackage
+# IDE 캐시 디렉토리
+.vs/
+.vscode/
+.gradle/
+.idea/
+.vsconfig
 
-# Addressables 빌드
-ServerData/
+# Rider 플러그인 자동 생성
+**/[Aa]ssets/Plugins/Editor/JetBrains*
 
-# ========== 커스텀 제외 ==========
-# 요청: Assets/Imported 폴더 전체 제외
-Assets/Imported/
+####################
+# Python
+####################
+# 바이트코드 캐시
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 
-# 만약 meta도 같이 제외하려면 (보통은 유지 권장)
-# Assets/Imported.meta
-# Assets/Imported/**/*.meta
+# 가상환경
+venv/
+.venv/
+env/
+
+# 환경변수 (API 키 등 민감 정보)
+.env
+.env.*
+
+# 패키지 빌드 산출물
+*.egg-info/
+dist/
+*.egg
+
+# Jupyter 자동저장
+.ipynb_checkpoints/
+
+####################
+# 딥러닝 / 강화학습
+####################
+# 모델 파일 (용량 큼 — LFS 사용 권장)
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.pkl
+checkpoints/
+
+# ML-Agents 학습 결과
+results/
+
+# ML-Agents 타이머 (학습 중 자동 생성)
+[Aa]ssets/ML-Agents/Timers/
+
+# 실험 로그 (W&B, MLflow, TensorBoard, Lightning 등)
+wandb/
+mlruns/
+runs/
+outputs/
+lightning_logs/
+
+# 데이터셋 (필요시 주석 해제)
+# data/
+# datasets/
+# *.csv
+# *.npy
+# *.npz
+# *.hdf5
+
+####################
+# AI 도구
+####################
+# Claude Code
+# [Cc][Ll][Aa][Uu][Dd][Ee].md
+.claude/
+
+# MCP 설정
+**.mcp.**

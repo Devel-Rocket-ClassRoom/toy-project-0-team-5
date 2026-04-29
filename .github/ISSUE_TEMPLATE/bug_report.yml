@@ -1,0 +1,45 @@
+name: Bug Report
+description: 버그를 발견했을 때 사용하세요
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 버그 설명
+      description: 어떤 버그인지 간략히 설명해주세요
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 방법
+      description: 버그를 재현하는 단계를 적어주세요
+      value: |
+        1. '...' 씬을 실행
+        2. '...' 동작 수행
+        3. 버그 발생
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 결과
+      description: 정상적으로 동작했다면 어떻게 되어야 하나요?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 실제 결과
+      description: 실제로 어떤 일이 발생했나요? (스크린샷 첨부 권장)
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 환경 정보
+      description: "엔진 버전(Unity/Unreal 등), 플랫폼"
+      placeholder: "Unity 6.3 LTS / Windows 11 또는 UE 5.4 / Windows 11"
+    validations:
+      required: false
