@@ -77,6 +77,7 @@ crashlytics-build.properties
 
 # 에셋 폴더
 Assets/Imported/
+Assets/Imported.meta
 
 ####################
 # Python
