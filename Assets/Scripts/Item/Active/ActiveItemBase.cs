@@ -6,7 +6,7 @@ public enum ChargeType
     OnHit,
 }
 
-public abstract class ActiveItemBase : IUseable
+public abstract class ActiveItemBase : IUseable, ICollectible
 {
     private int _id;
     protected ChargeType _chargeType;
@@ -56,6 +56,13 @@ public abstract class ActiveItemBase : IUseable
     private void OnCharge()
     {
         _currentCharge = Mathf.Min(_currentCharge + 1, _maxCharge);
+    }
+
+    public void Collect(GameObject collector)
+    {
+        // TODO: 캐릭터 필드에 아이템 상태에 따라 분기
+        // if null => set this
+        // else => swap this <=> other
     }
 }
 
