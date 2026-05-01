@@ -2,5 +2,8 @@ using UnityEngine;
 
 public interface ICollectible
 {
-    void Collect(GameObject collector); // TODO: 나중에 플레이어로 교체 예정
+    Sprite Sprite { get; }
+
+    void Init();
+    ICollectible Collect(GameObject collector); // TODO: 나중에 플레이어로 교체 예정
 }
