@@ -9,6 +9,7 @@ public class FloorManager : MonoBehaviour
 
     private Dictionary<Vector2Int, RoomController> _rooms = new();
     private RoomController _currentRoom;
+    public RoomController CurrentRoom => _currentRoom;
 
     private void Start()
     {
