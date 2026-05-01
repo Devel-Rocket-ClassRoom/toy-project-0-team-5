@@ -8,10 +8,13 @@ public enum ChargeType
 
 public abstract class ActiveItemBase : IUseable, ICollectible
 {
-    private int _id;
+    protected int _id;
     protected ChargeType _chargeType;
     protected int _currentCharge;
     protected int _maxCharge;
+    protected Sprite _sprite;
+
+    public Sprite Sprite => _sprite;
 
     public ActiveItemBase(int id, ChargeType chargeType, int maxCharge)
     {
@@ -27,7 +30,7 @@ public abstract class ActiveItemBase : IUseable, ICollectible
         _currentCharge = 0;
     }
 
-    public void Using()
+    public void OnEquip()
     {
         switch (_chargeType)
         {
@@ -40,7 +43,7 @@ public abstract class ActiveItemBase : IUseable, ICollectible
         }
     }
 
-    public void Dispose()
+    public void OnUnequip()
     {
         switch (_chargeType)
         {
@@ -58,11 +61,12 @@ public abstract class ActiveItemBase : IUseable, ICollectible
         _currentCharge = Mathf.Min(_currentCharge + 1, _maxCharge);
     }
 
-    public void Collect(GameObject collector)
+    public ICollectible Collect(GameObject collector)
     {
         // TODO: 캐릭터 필드에 아이템 상태에 따라 분기
-        // if null => set this
-        // else => swap this <=> other
+        // if null => set this => return null
+        // else => swap this <-> other => return other
+        return null;
     }
 }
 
