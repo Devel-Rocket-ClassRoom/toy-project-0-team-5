@@ -6,10 +6,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private BulletPool bulletPool;
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private PlayerStats stats;
 
     [SerializeField] private int poolSize = 10;
     [SerializeField] private float attackInterval = 0.3f;
-    [SerializeField] private float attackSpeed = 15f;
 
     private float fireTimer;
 
@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
     {
         fireTimer += Time.deltaTime;
 
-        if (fireTimer >= attackInterval)
+        if (fireTimer >= attackInterval / stats.attackSpeed)
         {
             Fire();
             fireTimer = 0;
@@ -39,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
         bullet.Fire(
             firePoint.position,
             firePoint.rotation,
-            firePoint.forward * attackSpeed
+            firePoint.forward * stats.attackSpeed
         );
     }
 

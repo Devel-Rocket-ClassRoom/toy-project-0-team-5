@@ -4,9 +4,10 @@ using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private PlayerStats stats;
+
     [SerializeField] private float lifeTime = 1f;
     [SerializeField] private float delayTime = 0.5f;
-    public float damage = 10f;
 
     private BulletPool pool;
     private Rigidbody rb;

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private float playerSpeed = 8;
+    [SerializeField] private PlayerStats stats;
     [SerializeField] private float rotateSpeed = 15f;
 
     public enum PlayerState
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = currentDirection * playerSpeed;
+        rb.linearVelocity = currentDirection * stats.moveSpeed;
 
         if (currentDirection != Vector3.zero)
             Rotate(currentDirection);
