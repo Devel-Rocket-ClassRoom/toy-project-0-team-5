@@ -1,18 +1,21 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerMovement : MonoBehaviour
 {
-    // private PlayerStats _playerStats;
+    [SerializeField][Range(0f, 10f)] private float _baseMoveSpeed = 5f;
+
     private Rigidbody _rigidBody;
     private InputManager _inputManager;
+    private PlayerStats _playerStats;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
         _inputManager = GetComponent<InputManager>();
+        _playerStats = GetComponent<PlayerStats>();
     }
 
     private void FixedUpdate()
@@ -20,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
         _rigidBody.linearVelocity =
             new Vector3(
                 _inputManager.MoveInput.x,
-                _rigidBody.linearVelocity.y,
+                0f,
                 _inputManager.MoveInput.y
-            ) * 10f; // TODO: 스탯 생기면 movespeed 적용
+            ) * _playerStats.MoveSpeed * _baseMoveSpeed;
     }
 }

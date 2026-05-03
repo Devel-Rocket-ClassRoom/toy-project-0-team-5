@@ -1736,9 +1736,11 @@ GameObject:
   - component: {fileID: 5705010053389060846}
   - component: {fileID: 7725293996537408413}
   - component: {fileID: 915326669150552387}
+  - component: {fileID: 731053950097890558}
   - component: {fileID: 7791870356106017160}
+  - component: {fileID: 6263373791623197268}
   - component: {fileID: 5572716196311405806}
-  - component: {fileID: 8433650936294760865}
+  - component: {fileID: 6596540459071794492}
   m_Layer: 7
   m_Name: Chibi_Cat
   m_TagString: Untagged
@@ -1774,7 +1776,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0.5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1786,11 +1788,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Constraints: 116
+  m_CollisionDetection: 1
 --- !u!136 &7725293996537408413
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1798,7 +1800,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4917045494696121812}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 04acfbe6af22572408f04aef71339a08, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1836,6 +1838,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &731053950097890558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917045494696121812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dad13cca92ce44aaa7ac2b632fb04c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  animator: {fileID: 915326669150552387}
+  inputManager: {fileID: 7791870356106017160}
 --- !u!114 &7791870356106017160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,6 +1865,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   _normalizeDiagonal: 1
+--- !u!114 &6263373791623197268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917045494696121812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938572ffcf4e63746880449cc52fe936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  _maxHp: 6
 --- !u!114 &5572716196311405806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1861,7 +1890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d0e13fb3176a34ba0be578af7006a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
---- !u!114 &8433650936294760865
+  _baseMoveSpeed: 5
+--- !u!114 &6596540459071794492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1870,16 +1900,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4917045494696121812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b986170718ff534d86a8804d276b913, type: 3}
+  m_Script: {fileID: 11500000, guid: 42e33d00e556899498d173f8f683dca5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  bulletPool: {fileID: 0}
-  bulletPrefab: {fileID: 213812953024388242, guid: 5794f4b5a8d2fe642b5d2c34d859333c, type: 3}
-  firePoint: {fileID: 8871845025938220704}
-  poolSize: 10
-  attackInterval: 0.3
-  bulletSpeed: 15
-  attackSpeed: 15
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  _damage: 3.5
 --- !u!1 &5053925235956977936
 GameObject:
   m_ObjectHideFlags: 0
