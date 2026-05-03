@@ -44,9 +44,9 @@ public class RoomController : MonoBehaviour
         {
             DoorFlags.North => _doorNorth,
             DoorFlags.South => _doorSouth,
-            DoorFlags.East  => _doorEast,
-            DoorFlags.West  => _doorWest,
-            _               => null,
+            DoorFlags.East => _doorEast,
+            DoorFlags.West => _doorWest,
+            _ => null,
         };
     }
 
