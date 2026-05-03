@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField][Range(0f, 10f)] private float _baseMoveSpeed = 5f;
-
     private Rigidbody _rigidBody;
     private InputManager _inputManager;
     private PlayerStats _playerStats;
@@ -25,6 +23,6 @@ public class PlayerMovement : MonoBehaviour
                 _inputManager.MoveInput.x,
                 0f,
                 _inputManager.MoveInput.y
-            ) * _playerStats.MoveSpeed * _baseMoveSpeed;
+            ) * _playerStats.MoveSpeed;
     }
 }

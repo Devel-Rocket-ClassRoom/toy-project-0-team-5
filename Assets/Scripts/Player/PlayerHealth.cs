@@ -5,6 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int _maxHp = 6;
     private int _currentHp;
+    private bool _isProtected = false;
     private PlayerAnimator playerAnimator;
 
     public int MaxHp => _maxHp;
@@ -32,17 +33,25 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _currentHp -= damage;
-
-        if (_currentHp <= 0)
+        if (_isProtected)
         {
-            _currentHp = 0;
-            playerAnimator.PlayDie();
-            Die();
+            _isProtected = false;
         }
+        else
+        {
+            _currentHp -= damage;
 
-        playerAnimator.PlayDamage();
-        GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+            if (_currentHp <= 0)
+            {
+                _currentHp = 0;
+                playerAnimator.PlayDie();
+                Die();
+            }
+
+            playerAnimator.PlayDamage();
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+        }
+        GameEvents.OnPlayerHit?.Invoke();
     }
 
     private void Die()
@@ -55,6 +64,7 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             TakeDamage(1);
+            Debug.Log("Hit");
         }
     }
 }
