@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ItemStand : MonoBehaviour
 {
+    [SerializeField] private ItemTable _itemTable;
     [SerializeField] private SpriteRenderer _renderer; // 현재 단상 위 아이템 스프라이트
 
     private ICollectible _currentItem;
@@ -9,12 +10,18 @@ public class ItemStand : MonoBehaviour
 
     public ICollectible CurrentItem => _currentItem;
 
-    private void Awake()
+    private void Start()
     {
-        // TODO: 아이템 테이블 정의되면 구현 예정
-        // table.GetRandomItem(out _currentItem);
-        // _currentItem.Init();
-        // _renderer.sprite = _currentItem.Sprite;
+        _currentItem = _itemTable.GetRandomItem();
+        _currentItem.Init();
+        _renderer.sprite = _currentItem.Sprite;
+    }
+
+    private void OnDestroy()
+    {
+        if (_currentItem == null) return;
+
+        _itemTable.AddItem(_currentItem);
     }
 
     private void OnCollisionEnter(Collision other)

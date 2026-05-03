@@ -20,16 +20,16 @@ public class ItemTable : MonoBehaviour
         }
 
         // 패시브 아이템 추가
-        foreach (var active in _actives)
-        {
-            _table.Add(active);
-        }
+        // foreach (var passive in _passives)
+        // {
+        //     _table.Add(passive);
+        // }
 
         // 소비관련템 추가
-        foreach (var active in _actives)
-        {
-            _table.Add(active);
-        }
+        // foreach (var consumable in _consumables)
+        // {
+        //     _table.Add(consumable);
+        // }
     }
 
     public ICollectible GetRandomItem()
