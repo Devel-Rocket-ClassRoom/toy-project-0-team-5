@@ -1,6 +1,8 @@
 using System.Data.SqlTypes;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(InputManager))]
 public class PlayerAnimator : MonoBehaviour
 {
     public enum PlayerState
@@ -12,23 +14,20 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     [SerializeField] private Animator animator;
-    [SerializeField] private PlayerMovement movement;
+    [SerializeField] private InputManager inputManager;
 
     private PlayerState state;
     private float idleTimer;
 
     private void Awake()
     {
-        if (animator == null)
-            animator = GetComponent<Animator>();
-
-        if (movement == null)
-            movement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
+        inputManager = GetComponent<InputManager>();
     }
 
     private void Update()
     {
-        if (movement.IsMoving)
+        if (inputManager.IsMoving)
         {
             SetState(PlayerState.Move);
         }

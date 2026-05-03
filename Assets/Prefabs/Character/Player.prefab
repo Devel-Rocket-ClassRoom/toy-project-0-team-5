@@ -1736,6 +1736,7 @@ GameObject:
   - component: {fileID: 5705010053389060846}
   - component: {fileID: 7725293996537408413}
   - component: {fileID: 915326669150552387}
+  - component: {fileID: 7791870356106017160}
   - component: {fileID: 5572716196311405806}
   - component: {fileID: 8433650936294760865}
   m_Layer: 7
@@ -1835,6 +1836,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7791870356106017160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917045494696121812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169b00545465816478bca12ba9473966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  _normalizeDiagonal: 1
 --- !u!114 &5572716196311405806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1847,9 +1861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d0e13fb3176a34ba0be578af7006a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  animator: {fileID: 915326669150552387}
-  playerSpeed: 8
-  rotateSpeed: 15
 --- !u!114 &8433650936294760865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,6 +1878,7 @@ MonoBehaviour:
   firePoint: {fileID: 8871845025938220704}
   poolSize: 10
   attackInterval: 0.3
+  bulletSpeed: 15
   attackSpeed: 15
 --- !u!1 &5053925235956977936
 GameObject:
