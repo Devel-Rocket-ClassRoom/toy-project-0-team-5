@@ -32,10 +32,10 @@ namespace ActiveItem
             switch (_chargeType)
             {
                 case ChargeType.OnRoomClear:
-                    // TODO: GameEvents.OnRoomClear += OnCharge;
+                    GameEvents.OnRoomClear += OnCharge;
                     break;
                 case ChargeType.OnHit:
-                    // TODO: GameEvents.OnPlayerHit += OnCharge;
+                    GameEvents.OnPlayerHit += OnCharge;
                     break;
             }
         }
@@ -45,10 +45,10 @@ namespace ActiveItem
             switch (_chargeType)
             {
                 case ChargeType.OnRoomClear:
-                    // TODO: GameEvents.OnRoomClear -= OnCharge;
+                    GameEvents.OnRoomClear -= OnCharge;
                     break;
                 case ChargeType.OnHit:
-                    // TODO: GameEvents.OnPlayerHit -= OnCharge;
+                    GameEvents.OnPlayerHit -= OnCharge;
                     break;
             }
         }
