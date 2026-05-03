@@ -1,73 +1,70 @@
+using NUnit.Framework;
 using UnityEngine;
 
-public enum ChargeType
+namespace ActiveItem
 {
-    OnRoomClear,
-    OnHit,
-}
-
-public abstract class ActiveItemBase : IUseable
-{
-    private int _id;
-    protected ChargeType _chargeType;
-    protected int _currentCharge;
-    protected int _maxCharge;
-
-    public ActiveItemBase(int id, ChargeType chargeType, int maxCharge)
+    public enum ChargeType
     {
-        _id = id;
-        _chargeType = chargeType;
-        _maxCharge = maxCharge;
+        OnRoomClear,
+        OnHit,
     }
 
-    public abstract void Use();
-
-    public void Init()
+    public abstract class ActiveItemBase : ScriptableObject, ICollectible
     {
-        _currentCharge = 0;
-    }
+        [SerializeField] protected int _id;
+        [SerializeField] protected ChargeType _chargeType;
+        [SerializeField] protected int _maxCharge;
+        [SerializeField] protected Sprite _sprite;
 
-    public void Using()
-    {
-        switch (_chargeType)
+        protected int _currentCharge;
+
+        public Sprite Sprite => _sprite;
+
+        public abstract void Use();
+
+        public void Init()
         {
-            case ChargeType.OnRoomClear:
-                // TODO: GameEvents.OnRoomClear += OnCharge;
-                break;
-            case ChargeType.OnHit:
-                // TODO: GameEvents.OnPlayerHit += OnCharge;
-                break;
+            _currentCharge = 0;
         }
-    }
 
-    public void Dispose()
-    {
-        switch (_chargeType)
+        private void OnEquip()
         {
-            case ChargeType.OnRoomClear:
-                // TODO: GameEvents.OnRoomClear -= OnCharge;
-                break;
-            case ChargeType.OnHit:
-                // TODO: GameEvents.OnPlayerHit -= OnCharge;
-                break;
+            switch (_chargeType)
+            {
+                case ChargeType.OnRoomClear:
+                    // TODO: GameEvents.OnRoomClear += OnCharge;
+                    break;
+                case ChargeType.OnHit:
+                    // TODO: GameEvents.OnPlayerHit += OnCharge;
+                    break;
+            }
         }
-    }
 
-    private void OnCharge()
-    {
-        _currentCharge = Mathf.Min(_currentCharge + 1, _maxCharge);
-    }
-}
+        private void OnUnequip()
+        {
+            switch (_chargeType)
+            {
+                case ChargeType.OnRoomClear:
+                    // TODO: GameEvents.OnRoomClear -= OnCharge;
+                    break;
+                case ChargeType.OnHit:
+                    // TODO: GameEvents.OnPlayerHit -= OnCharge;
+                    break;
+            }
+        }
 
-/// <summary>
-/// 아이템 예시
-/// </summary>
-public class Dice : ActiveItemBase
-{
-    public Dice(int id, ChargeType chargeType, int maxCharge) : base(id, chargeType, maxCharge) { }
+        private void OnCharge()
+        {
+            _currentCharge = Mathf.Min(_currentCharge + 1, _maxCharge);
+        }
 
-    public override void Use()
-    {
-        throw new System.NotImplementedException();
+        public ICollectible Collect(GameObject collector)
+        {
+            // TODO: 캐릭터 필드에 아이템 상태에 따라 분기
+            // if null => set this => return null
+            // else => swap this <-> other => return other
+            //      => this.OnEquip(), other.OnUnequip();
+            return null;
+        }
     }
 }
