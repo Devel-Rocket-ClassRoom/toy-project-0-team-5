@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class DamageOnContact : MonoBehaviour
 {
+    [SerializeField] private int _damage = 1;
+
     /// <summary>연속 데미지 방지를 위한 최소 간격(초).</summary>
     [SerializeField] private float _damageCooldown = 0.5f;
 
@@ -28,6 +30,7 @@ public class DamageOnContact : MonoBehaviour
         if (Time.time - _lastDamageTime < _damageCooldown) return;
 
         _lastDamageTime = Time.time;
-        GameEvents.OnPlayerHit?.Invoke();
+        target.GetComponent<IDamageable>()?.TakeDamage(_damage); // 실제 데미지
+        GameEvents.OnPlayerHit?.Invoke();                         // 피격 알림 (애니메이션, 무적 등)
     }
 }
