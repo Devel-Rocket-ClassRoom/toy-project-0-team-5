@@ -1,48 +1,48 @@
 using System;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int MaxHp { get; private set; } = 6;
-    public int CurrentHp { get; private set; }
-
+    [SerializeField] private int _maxHp = 6;
+    private int _currentHp;
     private PlayerAnimator playerAnimator;
 
-    public event Action<int> OnHpChanged;
-    public event Action<int> OnMaxHpChanged;
+    public int MaxHp => _maxHp;
+    public int CurrentHp => _currentHp;
+
 
     private void Start()
     {
         playerAnimator = GetComponent<PlayerAnimator>();
-        CurrentHp = MaxHp;
+
+        SetMaxHp(_maxHp, true);
     }
 
     public void SetMaxHp(int newMax, bool healFull = false)
     {
-        MaxHp = newMax;
-        OnMaxHpChanged?.Invoke(MaxHp);
+        _maxHp = newMax;
+        GameEvents.OnPlayerMaxHpChanged?.Invoke(_maxHp);
 
         if (healFull)
         {
-            CurrentHp = MaxHp;
-            OnHpChanged?.Invoke(CurrentHp);
+            _currentHp = _maxHp;
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
         }
     }
 
     public void TakeDamage(int damage)
     {
-        CurrentHp -= damage;
+        _currentHp -= damage;
 
-        if (CurrentHp <= 0)
+        if (_currentHp <= 0)
         {
-            CurrentHp = 0;
+            _currentHp = 0;
             playerAnimator.PlayDie();
             Die();
         }
-        playerAnimator.PlayDamage();
 
-        OnHpChanged?.Invoke(CurrentHp);
+        playerAnimator.PlayDamage();
+        GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
     }
 
     private void Die()
