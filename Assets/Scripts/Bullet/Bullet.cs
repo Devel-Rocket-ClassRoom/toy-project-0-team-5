@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private PlayerStats stats;
 
     [SerializeField] private float lifeTime = 1f;
     [SerializeField] private float delayTime = 0.5f;

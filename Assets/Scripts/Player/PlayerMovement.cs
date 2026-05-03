@@ -1,35 +1,23 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private PlayerStats stats;
     [SerializeField] private float rotateSpeed = 15f;
+    [SerializeField] private float moveSpeed = 10f;
 
-    public enum PlayerState
-    {
-        Idle,
-        Move,
-        Damage,
-        Die
-    }
-
-    private PlayerState state;
     private Rigidbody rb;
-    private float idleTimer;
-
     private Quaternion targetRotation;
     private Vector3 currentDirection;
     private List<KeyCode> moveKeys = new List<KeyCode>();
+
+    public Vector3 CurrentDirection => currentDirection;
+    public bool IsMoving => currentDirection != Vector3.zero;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
 
         targetRotation = transform.rotation;
     }
@@ -57,41 +45,11 @@ public class PlayerMovement : MonoBehaviour
         {
             currentDirection = Vector3.zero;
         }
-
-        // Move 애니메이션 전환
-        if (currentDirection == Vector3.zero)
-        {
-            SetState(PlayerState.Idle);
-        }
-        else
-        {
-            SetState(PlayerState.Move);
-        }
-
-        // Idle2 애니메이션 출력
-        if (state == PlayerState.Idle)
-        {
-            AnimatorStateInfo animState = animator.GetCurrentAnimatorStateInfo(0);
-
-            if (animState.IsName("Idle2"))
-            {
-                idleTimer = 0f;
-            }
-            else
-            {
-                idleTimer += Time.deltaTime;
-            }
-        }
-        else
-        {
-            idleTimer = 0;
-        }
-        animator.SetFloat("IdleTime", idleTimer);
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = currentDirection * stats.moveSpeed;
+        rb.linearVelocity = currentDirection * moveSpeed;
 
         if (currentDirection != Vector3.zero)
             Rotate(currentDirection);
@@ -154,30 +112,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void SetState(PlayerState newState)
-    {
-        if (state == newState)
-            return;
 
-        state = newState;
-
-        switch (state)
-        {
-            case PlayerState.Idle:
-                animator.SetBool("IsMoving", false);
-                break;
-
-            case PlayerState.Move:
-                animator.SetBool("IsMoving", true);
-                break;
-
-            case PlayerState.Damage:
-                animator.SetTrigger("Damage");
-                break;
-
-            case PlayerState.Die:
-                animator.SetTrigger("Die");
-                break;
-        }
-    }
 }

@@ -12,9 +12,9 @@ public class UI_HeartSlot : MonoBehaviour
     {
         switch (value)
         {
-            case 0: heartImage.sprite = full; break;
+            case 2: heartImage.sprite = full; break;
             case 1: heartImage.sprite = half; break;
-            case 2: heartImage.sprite = empty; break;
+            case 0: heartImage.sprite = empty; break;
         }
     }
 }

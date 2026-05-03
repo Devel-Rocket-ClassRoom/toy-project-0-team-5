@@ -1,4 +1,3 @@
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -6,18 +5,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private BulletPool bulletPool;
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private PlayerStats stats;
 
     [SerializeField] private int poolSize = 10;
     [SerializeField] private float attackInterval = 0.3f;
+    [SerializeField] private float bulletSpeed = 15f;
+    [SerializeField] private float attackSpeed = 5f;
 
     private float fireTimer;
 
     private void Awake()
     {
-        GameObject poolObj = new GameObject("BulletPool");
-        bulletPool = poolObj.AddComponent<BulletPool>();
-
         bulletPool.Initialize(bulletPrefab, poolSize);
     }
 
@@ -25,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
     {
         fireTimer += Time.deltaTime;
 
-        if (fireTimer >= attackInterval / stats.attackSpeed)
+        if (fireTimer >= attackInterval / attackSpeed)
         {
             Fire();
             fireTimer = 0;
@@ -39,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
         bullet.Fire(
             firePoint.position,
             firePoint.rotation,
-            firePoint.forward * stats.attackSpeed
+            firePoint.forward * bulletSpeed
         );
     }
 
