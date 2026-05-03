@@ -1,7 +1,6 @@
 using System.Data.SqlTypes;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(InputManager))]
 public class PlayerAnimator : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        if (animator == null) animator = GetComponent<Animator>();
         inputManager = GetComponent<InputManager>();
     }
 

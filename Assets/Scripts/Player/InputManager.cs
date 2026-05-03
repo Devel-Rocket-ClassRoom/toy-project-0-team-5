@@ -27,8 +27,8 @@ public class InputManager : MonoBehaviour
         MoveInput = ReadAxis(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
         ShootInput = ReadShoot();
 
-        BombPressed = Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space);
-        UseActivePressed = Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftControl);
+        BombPressed = Input.GetKeyDown(KeyCode.E);
+        UseActivePressed = Input.GetKeyDown(KeyCode.Space);
         PausePressed = Input.GetKeyDown(KeyCode.Escape);
     }
 
