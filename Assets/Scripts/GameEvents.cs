@@ -8,4 +8,5 @@ public static class GameEvents
     public static Action OnTransitionEnd;
     public static Action OnRoomClear;
     public static Action OnPlayerHit;
+    public static Action<GameObject> OnEnemyDead;
 }
