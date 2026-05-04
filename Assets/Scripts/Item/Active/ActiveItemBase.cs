@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 
 namespace ActiveItem
@@ -56,15 +55,15 @@ namespace ActiveItem
         private void OnCharge()
         {
             _currentCharge = Mathf.Min(_currentCharge + 1, _maxCharge);
+
         }
 
         public ICollectible Collect(GameObject collector)
         {
-            // TODO: 캐릭터 필드에 아이템 상태에 따라 분기
-            // if null => set this => return null
-            // else => swap this <-> other => return other
-            //      => this.OnEquip(), other.OnUnequip();
-            return null;
+            Debug.Log("아이템 획득: " + GetType().Name);
+            var playerActions = collector.GetComponent<PlayerActions>();
+            var currentItem = playerActions.OnChangeActiveItem(this);
+            return currentItem;
         }
     }
 }

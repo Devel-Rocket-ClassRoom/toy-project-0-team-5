@@ -1,7 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Stat", menuName = "Player/StatsSO")]
-public class PlayerSO : ScriptableObject
+public enum PlayerStatType
+{
+    Damage,
+    Delay,
+    Range,
+    ShotSpeed,
+    Speed,
+    Luck
+}
+
+[CreateAssetMenu(fileName = "PlayerStatData", menuName = "Player/StatData")]
+public class StatData : ScriptableObject
 {
     [Header("초기 시작 값")]
 
