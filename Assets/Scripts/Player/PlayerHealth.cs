@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _maxHp = 6;
     private int _currentHp;
@@ -31,7 +31,19 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void AddMaxHp(int amount, bool heal = true)
+    {
+        _maxHp += amount;
+        GameEvents.OnPlayerMaxHpChanged?.Invoke(_maxHp);
+
+        if (heal)
+        {
+            _currentHp += amount;
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+        }
+    }
+
+    public void TakeDamage(int amount)
     {
         if (_isProtected)
         {
@@ -39,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            _currentHp -= damage;
+            _currentHp -= amount;
 
             if (_currentHp <= 0)
             {
@@ -67,4 +79,6 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("Hit");
         }
     }
+
+    public void SetProtected(bool isProtected) => _isProtected = isProtected;
 }
