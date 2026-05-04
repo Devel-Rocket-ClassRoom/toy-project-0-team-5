@@ -9,8 +9,10 @@ namespace ActiveItem
         {
             if (_currentCharge < _maxCharge) return;
 
+            Debug.Log("베리어 사용!");
+            var playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
+            playerHealth.SetProtected(true);
             _currentCharge = 0;
-            Debug.Log("Using Barrier");
         }
     }
 }

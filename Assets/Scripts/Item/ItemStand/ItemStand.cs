@@ -29,7 +29,7 @@ public class ItemStand : MonoBehaviour
         if (!other.gameObject.CompareTag("Player") || _currentItem == null || _collectFlag) return;
 
         _collectFlag = true;
-        _currentItem = _currentItem.Collect(other.gameObject); // TODO: 캐릭터 구현되면 수정 예정
+        _currentItem = _currentItem.Collect(other.gameObject);
         if (_currentItem == null)
         {
             _renderer.sprite = null;
