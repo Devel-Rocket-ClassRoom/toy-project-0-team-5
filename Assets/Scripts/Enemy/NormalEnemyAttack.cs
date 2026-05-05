@@ -9,8 +9,9 @@ public class NormalEnemyAttack : EnemyAttackBase
     {
         if (target == null || bulletPrefab == null) return;
 
-        Vector3 dir = (target.position - self.position).normalized;
+        Vector3 diff = target.position - self.position;
+        Vector3 dir = new Vector3(diff.x, 0f, diff.z).normalized;
         EnemyBullet bullet = Instantiate(bulletPrefab, self.position, Quaternion.LookRotation(dir));
-        bullet.Fire(dir * bulletSpeed, KnockbackForce);
+        bullet.Fire(dir * bulletSpeed);
     }
 }
