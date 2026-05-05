@@ -6,7 +6,7 @@ using UnityEngine;
 /// TakeDamage()를 호출하면 HP가 감소하고, 0 이하가 되면 OnDeath 이벤트를 발생시킨다.
 /// Destructible과 함께 사용하면 파괴 가능한 Prop을 만들 수 있다.
 /// </summary>
-public class Damageable : MonoBehaviour
+public class Damageable : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _maxHp = 1;
 
