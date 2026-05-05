@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
-
+    [SerializeField] private int damage = 1;
     [SerializeField] private float lifeTime = 1f;
     [SerializeField] private float delayTime = 0.5f;
 
@@ -50,8 +50,13 @@ public class Bullet : MonoBehaviour
     {
         int otherLayer = collision.gameObject.layer;
 
-        if (otherLayer == LayerMask.NameToLayer("Enemy") ||
-            otherLayer == LayerMask.NameToLayer("Ground"))
+        if (otherLayer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
+                damageable.TakeDamage(damage);
+            ReturnToPool();
+        }
+        else if (otherLayer == LayerMask.NameToLayer("Ground"))
         {
             ReturnToPool();
         }

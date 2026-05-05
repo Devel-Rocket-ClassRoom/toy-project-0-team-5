@@ -23,6 +23,7 @@ public class Interactable : MonoBehaviour
         {
             if (hit.CompareTag("Player"))
             {
+                Debug.Log("Interactable: Player interacted with " + gameObject.name);
                 OnInteract?.Invoke(hit.gameObject);
                 break;
             }

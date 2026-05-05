@@ -32,7 +32,7 @@ public class FloorManager : MonoBehaviour
             var controller = instance.GetComponent<RoomController>();
             if (controller == null) continue;
 
-            controller.Init(node.GridPosition, new List<GameObject>());
+            controller.Init(node.GridPosition, node.DoorFlags);
             _rooms[node.GridPosition] = controller;
 
             if (node.RoomType == RoomType.Start)
@@ -51,6 +51,7 @@ public class FloorManager : MonoBehaviour
 
         var oppositeFlag = GetOppositeFlag(enteredDoor);
         var spawnPoint = nextRoom.GetSpawnPoint(oppositeFlag);
+
         if (spawnPoint != null)
             GameEvents.OnRoomTransition?.Invoke(spawnPoint);
     }
@@ -93,6 +94,7 @@ public class FloorManager : MonoBehaviour
 
     private RoomData GetRoomData(RoomType type)
     {
-        return _roomDataList.Find(d => d.RoomType == type);
+        return _roomDataList.Find(d => d.RoomType == type)
+            ?? _roomDataList.Find(d => d.RoomType == RoomType.Normal);
     }
 }
