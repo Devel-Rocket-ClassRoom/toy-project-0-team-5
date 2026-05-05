@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900c2e2072840ed4487b697c024b34f9, type: 3}
   m_Name: Barrier
   m_EditorClassIdentifier: Assembly-CSharp::ActiveItem.Barrier
-  _id: 1
-  _chargeType: 0
+  _id: 3
+  _chargeType: 1
   _maxCharge: 0
   _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}

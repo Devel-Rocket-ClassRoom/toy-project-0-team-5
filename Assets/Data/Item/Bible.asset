@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7d1047816331c429eacf89d2558d64, type: 3}
-  m_Name: YumHeart
-  m_EditorClassIdentifier: Assembly-CSharp::ActiveItem.YumHeart
-  _id: 4
+  m_Script: {fileID: 11500000, guid: c32a0996d37e5dc4caecf662e8b1adac, type: 3}
+  m_Name: Bible
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveItem.Bible
+  _id: 1
   _chargeType: 0
   _maxCharge: 4
   _sprite: {fileID: 0}
-  _healAmount: 1
+  _roomCount: 1

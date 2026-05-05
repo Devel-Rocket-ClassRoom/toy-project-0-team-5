@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7d1047816331c429eacf89d2558d64, type: 3}
-  m_Name: YumHeart
-  m_EditorClassIdentifier: Assembly-CSharp::ActiveItem.YumHeart
-  _id: 4
-  _chargeType: 0
-  _maxCharge: 4
+  m_Script: {fileID: 11500000, guid: 33595fae0935bec41b6cdb2be3c81be1, type: 3}
+  m_Name: Belial
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveItem.Belial
+  _id: 2
+  _chargeType: 1
+  _maxCharge: 5
   _sprite: {fileID: 0}
-  _healAmount: 1
+  _roomCount: 2
+  _damageValue: 2
