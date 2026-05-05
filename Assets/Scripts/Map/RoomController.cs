@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
@@ -17,11 +18,19 @@ public class RoomController : MonoBehaviour
     private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
     private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
 
-    public void Init(Vector2Int gridPosition, List<GameObject> enemies)
+    public void Init(Vector2Int gridPosition, DoorFlags doorFlags)
     {
         GridPosition = gridPosition;
-        _enemies = new List<GameObject>(enemies);
         IsCleared = false;
+
+        _enemies = GetComponentsInChildren<EnemyBase>(includeInactive: true)
+            .Select(e => e.gameObject)
+            .ToList();
+
+        _doorNorth?.gameObject.SetActive((doorFlags & DoorFlags.North) != 0);
+        _doorSouth?.gameObject.SetActive((doorFlags & DoorFlags.South) != 0);
+        _doorEast?.gameObject.SetActive((doorFlags & DoorFlags.East) != 0);
+        _doorWest?.gameObject.SetActive((doorFlags & DoorFlags.West) != 0);
     }
 
     public void OnRoomEnter()
@@ -29,6 +38,7 @@ public class RoomController : MonoBehaviour
         if (_enemies.Count == 0)
         {
             IsCleared = true;
+            SetDoorsLocked(false);
             return;
         }
 
