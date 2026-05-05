@@ -9,38 +9,27 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerActions : MonoBehaviour
 {
-    [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private ActiveItemBase _equippedItem;
-    [SerializeField] private IBulletStrategy _strategy;
+    [SerializeField] private BulletSpawner _spawner;
     private PlayerStats _playerStats;
-
-    private Rigidbody _rigidBody;
     private InputManager _inputManager;
 
-    private Vector3 _currentDirection = Vector3.forward;
     private BulletFlags _flags;
-    private int _attackFrameTimer;
+    private float _attackTimer;
 
     private void Awake()
     {
-        _rigidBody = GetComponent<Rigidbody>();
         _inputManager = GetComponent<InputManager>();
         _playerStats = GetComponent<PlayerStats>();
     }
 
     private void Update()
     {
-        _attackFrameTimer++;
+        _attackTimer += Time.deltaTime;
 
         if (_inputManager.UseActivePressed) UseCurrentItem();
         // if (_inputManager.BombPressed) CreateBomb();
         if (_inputManager.ShootInput != Vector2.zero) OnShoot();
-    }
-
-    private void FixedUpdate()
-    {
-        Quaternion targetRot = Quaternion.LookRotation(_currentDirection);
-        _rigidBody.MoveRotation(Quaternion.Slerp(_rigidBody.rotation, targetRot, _rotationSpeed * Time.fixedDeltaTime));
     }
 
     private void UseCurrentItem()
@@ -63,19 +52,22 @@ public class PlayerActions : MonoBehaviour
 
     private void OnShoot()
     {
-        if (_attackFrameTimer < _playerStats.Delay) return;
+        if (_attackTimer < _playerStats.Delay) return;
 
-        _currentDirection = new Vector3(_inputManager.ShootInput.x, 0f, _inputManager.ShootInput.y);
-        // BulletConfig config = new(
-        //     _currentDirection,
-        //     _playerStats.Damage,
-        //     _playerStats.ShotSpeed,
-        //     _playerStats.Range,
-        //     _playerStats.Luck,
-        //     _flags
-        // );
-        // _strategy.Fire(null);
-        Debug.Log("Attack!!!");
-        _attackFrameTimer = 0;
+        if (_spawner != null)
+        {
+            var moveDir = new Vector3(_inputManager.MoveInput.x, 0f, _inputManager.MoveInput.y).normalized;
+            var shotDir = new Vector3(_inputManager.ShootInput.x, 0f, _inputManager.ShootInput.y).normalized;
+            BulletConfig config = new(
+                _playerStats.Damage,
+                _playerStats.ShotSpeed,
+                _playerStats.Range,
+                _playerStats.Luck,
+                _flags
+            );
+            _spawner.SpawnBullet(shotDir + (moveDir * 0.5f), config); // TODO: 나중에 값 수정 필요하면 따로 필드화
+        }
+
+        _attackTimer = 0f;
     }
 }
