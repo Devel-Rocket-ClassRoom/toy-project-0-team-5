@@ -12,25 +12,48 @@ public class RoomController : MonoBehaviour
     [SerializeField] private DoorController _doorWest;
 
     private List<GameObject> _enemies = new();
+    private bool _isActive;
+
+    private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
+    private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
 
     public void Init(Vector2Int gridPosition, List<GameObject> enemies)
     {
         GridPosition = gridPosition;
-        _enemies = enemies;
+        _enemies = new List<GameObject>(enemies);
         IsCleared = false;
     }
 
     public void OnRoomEnter()
     {
+        if (_enemies.Count == 0)
+        {
+            IsCleared = true;
+            return;
+        }
+
+        _isActive = true;
         SetDoorsLocked(true);
+
         foreach (var enemy in _enemies)
             enemy.SetActive(true);
     }
 
     public void OnRoomClear()
     {
+        _isActive = false;
         IsCleared = true;
         SetDoorsLocked(false);
+        GameEvents.OnRoomClear?.Invoke();
+    }
+
+    private void HandleEnemyDead(GameObject deadEnemy)
+    {
+        if (!_isActive) return;
+        if (!_enemies.Remove(deadEnemy)) return;
+
+        if (_enemies.Count == 0)
+            OnRoomClear();
     }
 
     public Transform GetSpawnPoint(DoorFlags direction)

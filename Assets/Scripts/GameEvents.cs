@@ -19,4 +19,5 @@ public static class GameEvents
     public static Action OnTransitionStart;
     public static Action OnTransitionEnd;
     public static Action OnRoomClear;
+    public static Action<GameObject> OnEnemyDead;
 }
