@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
@@ -12,25 +13,57 @@ public class RoomController : MonoBehaviour
     [SerializeField] private DoorController _doorWest;
 
     private List<GameObject> _enemies = new();
+    private bool _isActive;
 
-    public void Init(Vector2Int gridPosition, List<GameObject> enemies)
+    private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
+    private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
+
+    public void Init(Vector2Int gridPosition, DoorFlags doorFlags)
     {
         GridPosition = gridPosition;
-        _enemies = enemies;
         IsCleared = false;
+
+        _enemies = GetComponentsInChildren<EnemyBase>(includeInactive: true)
+            .Select(e => e.gameObject)
+            .ToList();
+
+        _doorNorth?.gameObject.SetActive((doorFlags & DoorFlags.North) != 0);
+        _doorSouth?.gameObject.SetActive((doorFlags & DoorFlags.South) != 0);
+        _doorEast?.gameObject.SetActive((doorFlags & DoorFlags.East) != 0);
+        _doorWest?.gameObject.SetActive((doorFlags & DoorFlags.West) != 0);
     }
 
     public void OnRoomEnter()
     {
+        if (_enemies.Count == 0)
+        {
+            IsCleared = true;
+            SetDoorsLocked(false);
+            return;
+        }
+
+        _isActive = true;
         SetDoorsLocked(true);
+
         foreach (var enemy in _enemies)
             enemy.SetActive(true);
     }
 
     public void OnRoomClear()
     {
+        _isActive = false;
         IsCleared = true;
         SetDoorsLocked(false);
+        GameEvents.OnRoomClear?.Invoke();
+    }
+
+    private void HandleEnemyDead(GameObject deadEnemy)
+    {
+        if (!_isActive) return;
+        if (!_enemies.Remove(deadEnemy)) return;
+
+        if (_enemies.Count == 0)
+            OnRoomClear();
     }
 
     public Transform GetSpawnPoint(DoorFlags direction)

@@ -5,36 +5,22 @@ public class UI_HeartPanel : MonoBehaviour
 {
     [SerializeField] private UI_HeartSlot heartPrefab;
     [SerializeField] private Transform parent;
-    [SerializeField] private Player player;
 
     private List<UI_HeartSlot> hearts = new List<UI_HeartSlot>();
 
-    private void Start()
+    private void Awake()
     {
-        player.Health.OnMaxHpChanged += HandleMaxHpChanged;
-        player.Health.OnHpChanged += UpdateHearts;
-
-        Init(player.Health.MaxHp);
-        UpdateHearts(player.Health.CurrentHp);
-
-    }
-
-    private void HandleMaxHpChanged(int newMax)
-    {
-        Init(newMax);
-        UpdateHearts(player.Health.CurrentHp);
+        GameEvents.OnPlayerMaxHpChanged += UpdateMaxHearts;
+        GameEvents.OnPlayerHpChanged += UpdateHearts;
     }
 
     private void OnDestroy()
     {
-        if (player.Health != null)
-        {
-            player.Health.OnHpChanged -= UpdateHearts;
-            player.Health.OnMaxHpChanged -= HandleMaxHpChanged;
-        }
+        GameEvents.OnPlayerMaxHpChanged -= UpdateMaxHearts;
+        GameEvents.OnPlayerHpChanged -= UpdateHearts;
     }
 
-    public void Init(int maxHealth)
+    private void UpdateMaxHearts(int maxHealth)
     {
         foreach (var heart in hearts)
         {
@@ -51,7 +37,7 @@ public class UI_HeartPanel : MonoBehaviour
         }
     }
 
-    public void UpdateHearts(int currentHealth)
+    private void UpdateHearts(int currentHealth)
     {
         for (int i = 0; i < hearts.Count; i++)
         {

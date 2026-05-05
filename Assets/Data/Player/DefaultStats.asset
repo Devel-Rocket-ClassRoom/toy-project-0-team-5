@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5a6f6cf4efc8449984c344cd75e5db, type: 3}
+  m_Name: DefaultStats
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
+  _damage: 1
+  _delay: 30
+  _range: 3
+  _shotSpeed: 5
+  _speed: 5
+  _luck: 0

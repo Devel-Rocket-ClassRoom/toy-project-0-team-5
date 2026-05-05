@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool.Initialize(bulletPrefab, poolSize);
+        bulletPool?.Initialize(bulletPrefab, poolSize);
     }
 
     private void Update()
@@ -31,7 +31,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void Fire()
     {
-        Bullet bullet = bulletPool.GetBullet();
+        Bullet bullet = bulletPool?.GetBullet();
+        if (bullet == null) return;
 
         bullet.Fire(
             firePoint.position,

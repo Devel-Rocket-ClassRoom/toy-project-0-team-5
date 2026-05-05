@@ -1,48 +1,69 @@
 using System;
-using System.Xml.Serialization;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public int MaxHp { get; private set; } = 6;
-    public int CurrentHp { get; private set; }
-
+    [SerializeField] private int _maxHp = 6;
+    private int _currentHp;
+    private bool _isProtected = false;
     private PlayerAnimator playerAnimator;
 
-    public event Action<int> OnHpChanged;
-    public event Action<int> OnMaxHpChanged;
+    public int MaxHp => _maxHp;
+    public int CurrentHp => _currentHp;
+
 
     private void Start()
     {
         playerAnimator = GetComponent<PlayerAnimator>();
-        CurrentHp = MaxHp;
+
+        SetMaxHp(_maxHp, true);
     }
 
     public void SetMaxHp(int newMax, bool healFull = false)
     {
-        MaxHp = newMax;
-        OnMaxHpChanged?.Invoke(MaxHp);
+        _maxHp = newMax;
+        GameEvents.OnPlayerMaxHpChanged?.Invoke(_maxHp);
 
         if (healFull)
         {
-            CurrentHp = MaxHp;
-            OnHpChanged?.Invoke(CurrentHp);
+            _currentHp = _maxHp;
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
         }
     }
 
-    public void TakeDamage(int damage)
+    public void AddMaxHp(int amount, bool heal = true)
     {
-        CurrentHp -= damage;
+        _maxHp += amount;
+        GameEvents.OnPlayerMaxHpChanged?.Invoke(_maxHp);
 
-        if (CurrentHp <= 0)
+        if (heal)
         {
-            CurrentHp = 0;
-            playerAnimator.PlayDie();
-            Die();
+            _currentHp += amount;
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
         }
-        playerAnimator.PlayDamage();
+    }
 
-        OnHpChanged?.Invoke(CurrentHp);
+    public void TakeDamage(int amount)
+    {
+        if (_isProtected)
+        {
+            _isProtected = false;
+        }
+        else
+        {
+            _currentHp -= amount;
+
+            if (_currentHp <= 0)
+            {
+                _currentHp = 0;
+                playerAnimator.PlayDie();
+                Die();
+            }
+
+            playerAnimator.PlayDamage();
+            GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+        }
+        GameEvents.OnPlayerHit?.Invoke();
     }
 
     private void Die()
@@ -50,11 +71,5 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Die");
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            TakeDamage(1);
-        }
-    }
+    public void SetProtected(bool isProtected) => _isProtected = isProtected;
 }
