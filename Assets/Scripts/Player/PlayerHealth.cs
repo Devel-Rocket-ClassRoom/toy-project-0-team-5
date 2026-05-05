@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -69,15 +68,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         Debug.Log("Die");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            TakeDamage(1);
-            Debug.Log("Hit");
-        }
     }
 
     public void SetProtected(bool isProtected) => _isProtected = isProtected;
