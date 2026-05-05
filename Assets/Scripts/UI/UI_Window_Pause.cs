@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_Window_Pause : MonoBehaviour
 {
-    [Header("[Butto]")]
+[Header("[Button]")]
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button quiteButton;
 
