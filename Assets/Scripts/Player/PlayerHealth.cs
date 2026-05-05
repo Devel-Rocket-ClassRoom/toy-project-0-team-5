@@ -71,14 +71,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Debug.Log("Die");
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            TakeDamage(1);
-            Debug.Log("Hit");
-        }
-    }
-
     public void SetProtected(bool isProtected) => _isProtected = isProtected;
 }
