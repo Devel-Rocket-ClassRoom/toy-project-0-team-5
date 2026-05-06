@@ -37,4 +37,14 @@ public class PlayerConsumableItem : MonoBehaviour
         }
         OnItemChanged?.Invoke();
     }
+
+    public void UseBomb(int amount)
+    {
+
+    }
+
+    public void UseKey(int amount)
+    {
+
+    }
 }

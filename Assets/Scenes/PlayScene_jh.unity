@@ -630,6 +630,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8329284918693228016, guid: 3220ec10a2bbba04b8875f6c4278f457, type: 3}
   m_PrefabInstance: {fileID: 4847665710272759396}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &577041934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4917045494696121812, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+  m_PrefabInstance: {fileID: 255604615637875435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &859486309
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +793,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8109603772656540097, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
   m_PrefabInstance: {fileID: 255604615637875435}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 577041934}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a028de30776679f4eb26b5dccf3c8ea3, type: 3}
@@ -799,23 +804,25 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6596540459071794492, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
   m_PrefabInstance: {fileID: 255604615637875435}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 577041934}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42e33d00e556899498d173f8f683dca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
---- !u!114 &1257368627 stripped
+--- !u!114 &1257368627
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3179700444662119663, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
-  m_PrefabInstance: {fileID: 255604615637875435}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 577041934}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfba24d8ec4287c4d81801357265f74d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerItem
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerConsumableItem
+  player: {fileID: 1257368625}
 --- !u!1 &1381772329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1545,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6596540459071794492, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+      propertyPath: _base
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d42cb0c59512a949afb0fd6f46be677, type: 2}
     - target: {fileID: 8433650936294760865, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
       propertyPath: bulletPool
       value: 
@@ -1590,10 +1601,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8433650936294760865, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4917045494696121812, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1257368627}
   m_SourcePrefab: {fileID: 100100000, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
 --- !u!1001 &1761301320903086304
 PrefabInstance:
@@ -1772,10 +1787,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4529023265149480838, guid: 61ee0e8d5b335984bbeb515119fd5789, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1257368625}
     - target: {fileID: 5198767787937449879, guid: 61ee0e8d5b335984bbeb515119fd5789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1788,10 +1799,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5960486194946622721, guid: 61ee0e8d5b335984bbeb515119fd5789, type: 3}
-      propertyPath: playerItem
-      value: 
-      objectReference: {fileID: 1257368627}
     - target: {fileID: 5960486194946622721, guid: 61ee0e8d5b335984bbeb515119fd5789, type: 3}
       propertyPath: playerConsumableItem
       value: 
