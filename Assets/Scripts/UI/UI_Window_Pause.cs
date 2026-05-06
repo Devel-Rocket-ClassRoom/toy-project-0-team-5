@@ -30,7 +30,7 @@ public class UI_Window_Pause : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
-        Refesh();
+        Refresh();
     }
 
     public void Hide()
