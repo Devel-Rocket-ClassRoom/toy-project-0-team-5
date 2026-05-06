@@ -624,6 +624,7 @@ MonoBehaviour:
   pauseWindowUI: {fileID: 1972755254}
   gameoverWindowUI: {fileID: 1201391484}
   bossUI: {fileID: 280498824}
+  inputManager: {fileID: 2131329805}
 --- !u!224 &556181837 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8329284918693228016, guid: 3220ec10a2bbba04b8875f6c4278f457, type: 3}
@@ -793,6 +794,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a028de30776679f4eb26b5dccf3c8ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+--- !u!114 &1257368626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6596540459071794492, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+  m_PrefabInstance: {fileID: 255604615637875435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e33d00e556899498d173f8f683dca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
 --- !u!1 &1381772329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1253,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46af53d66a2e2a04284d232fdd2e9e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Pause_window
+--- !u!1 &2131329804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2131329806}
+  - component: {fileID: 2131329805}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2131329805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131329804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169b00545465816478bca12ba9473966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  _normalizeDiagonal: 1
+--- !u!4 &2131329806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131329804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 602.5362, y: 160.52231, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2137957230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1500,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6596540459071794492, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+      propertyPath: _base
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d42cb0c59512a949afb0fd6f46be677, type: 2}
     - target: {fileID: 8433650936294760865, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
       propertyPath: bulletPool
       value: 
@@ -2173,6 +2234,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 497561530}
     m_Modifications:
+    - target: {fileID: 1035389110255824709, guid: 3220ec10a2bbba04b8875f6c4278f457, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 1257368626}
     - target: {fileID: 3832249490772204306, guid: 3220ec10a2bbba04b8875f6c4278f457, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2740,3 +2805,4 @@ SceneRoots:
   - {fileID: 233136625881340075}
   - {fileID: 1761301320903086304}
   - {fileID: 3893022898213977332}
+  - {fileID: 2131329806}

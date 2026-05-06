@@ -14,12 +14,10 @@ public class UI_Window_Pause : MonoBehaviour
     [SerializeField] private TMP_Text rangeStatText;
     [SerializeField] private TMP_Text SpeedStatText;
 
+    [SerializeField] private PlayerStats playerStats;
+
     private UIManager uiManager;
 
-    private int attackStat;
-    private int sttackSpeedStat;
-    private int rangeStat;
-    private int speedStat;
 
     public void Init(UIManager manager)
     {
@@ -32,10 +30,19 @@ public class UI_Window_Pause : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        Refesh();
     }
 
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void Refesh()
+    {
+        attackStatText.text = $"{playerStats.Damage:F2}";
+        attackSpeedStatText.text = $"{playerStats.ShotSpeed:F2}";
+        rangeStatText.text = $"{playerStats.Range:F2}";
+        SpeedStatText.text = $"{playerStats.MoveSpeed:F2}";
     }
 }
