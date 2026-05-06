@@ -30,7 +30,7 @@ public class UI_Window_Pause : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
-        Refesh();
+        Refresh();
     }
 
     public void Hide()
@@ -38,7 +38,7 @@ public class UI_Window_Pause : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Refesh()
+    public void Refresh()
     {
         attackStatText.text = $"{playerStats.Damage:F2}";
         attackSpeedStatText.text = $"{playerStats.ShotSpeed:F2}";

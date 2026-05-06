@@ -7,32 +7,18 @@ public class UI_Window_Ingame : MonoBehaviour
     [SerializeField] private TMP_Text bombText;
     [SerializeField] private TMP_Text keyText;
 
-    private int coinCount;
-    private int bombCount;
-    private int keyCount;
+    [SerializeField] private PlayerItem playerItem;
 
-    public void AddCoin(int amount)
+    private void Update()
     {
-        coinCount += amount;
-        Refresh();
-    }
-
-    public void AddBomb(int amount)
-    {
-        bombCount += amount;
-        Refresh();
-    }
-
-    public void AddKey(int amount)
-    {
-        keyCount += amount;
+        playerItem.OnItemChanged += Refresh;
         Refresh();
     }
 
     public void Refresh()
     {
-        coinText.text = coinCount.ToString();
-        bombText.text = bombCount.ToString();
-        keyText.text = keyCount.ToString();
+        coinText.text = $"{playerItem.Coin:D2}";
+        bombText.text = $"{playerItem.Bomb:D2}";
+        keyText.text = $"{playerItem.Key:D2}";
     }
 }
