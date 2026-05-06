@@ -498,11 +498,6 @@ MonoBehaviour:
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: f996cbef8ddd4944da96ea7fe21a51e9, type: 3}
   - Id: 0
-    RoomType: 1
-    DoorFlags: 0
-    Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: 2913884ba50912d469b3bbb17bb9d9fe, type: 3}
-  - Id: 0
     RoomType: 2
     DoorFlags: 0
     Weight: 0
@@ -516,7 +511,12 @@ MonoBehaviour:
     RoomType: 3
     DoorFlags: 0
     Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: 64c03839213062a4db434cd6a3162ab9, type: 3}
+    Prefab: {fileID: 4251631686836462034, guid: 9c7cc8c427e69b946a12cb91705dffb5, type: 3}
+  - Id: 0
+    RoomType: 1
+    DoorFlags: 0
+    Weight: 0
+    Prefab: {fileID: 4251631686836462034, guid: 41f9c32d47a569f4d80ca39d93eb7dca, type: 3}
   _roomSpacing: 45
   _totalRooms: 8
 --- !u!114 &285147180
