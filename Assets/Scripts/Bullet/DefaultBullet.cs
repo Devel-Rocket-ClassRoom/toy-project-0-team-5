@@ -67,7 +67,7 @@ public class DefaultBullet : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
             Destroy(gameObject);
         }
