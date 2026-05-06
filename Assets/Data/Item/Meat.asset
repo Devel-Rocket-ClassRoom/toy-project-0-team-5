@@ -16,6 +16,5 @@ MonoBehaviour:
   _statType: 0
   _modifierType: 0
   _value: 1
-  _sprite: {fileID: 0}
-  _healAmount: 1
-  _damageValue: 1
+  _sprite: {fileID: 21300000, guid: 68ec411bfcef045ebaee21083bd7bb92, type: 3}
+  _MaxHPAmount: 2

@@ -14,7 +14,6 @@ namespace ActiveItem
             {
                 _currentCharge = 0;
                 GameEvents.OnActiveUsed?.Invoke();
-                // Debug.Log("베리어 사용!");
             }
         }
     }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using ActiveItem;
 using ConsumableItem;
+using PassiveItem;
 using UnityEngine;
 
 public class ItemTable : MonoBehaviour
 {
     [SerializeField] private List<ActiveItemBase> _actives;
-    // [SerializeField] private List<PassiveItemBase> _passives;
+    [SerializeField] private List<PassiveItemBase> _passives;
     // [SerializeField] private List<ConsumableItemBase> _consumables;
 
     private readonly List<ICollectible> _table = new();
@@ -20,10 +21,10 @@ public class ItemTable : MonoBehaviour
         }
 
         // 패시브 아이템 추가
-        // foreach (var passive in _passives)
-        // {
-        //     _table.Add(passive);
-        // }
+        foreach (var passive in _passives)
+        {
+            _table.Add(passive);
+        }
 
         // 소비관련템 추가
         // foreach (var consumable in _consumables)

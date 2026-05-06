@@ -15,6 +15,6 @@ MonoBehaviour:
   _id: 2
   _chargeType: 1
   _maxCharge: 5
-  _sprite: {fileID: 0}
+  _sprite: {fileID: 21300000, guid: b50c0caf85ebf4c05b611c61d571c83e, type: 3}
   _roomCount: 2
   _damageValue: 2

@@ -5,7 +5,7 @@ namespace PassiveItem
     [CreateAssetMenu(fileName = "Meat", menuName = "Item/Passive/Meat")]
     public class Meat : PassiveItemBase
     {
-        [SerializeField] private int _MaxHPAmount = 1;
+        [SerializeField] private int _MaxHPAmount = 2; // 1칸
 
         protected override void OnCollect(GameObject collector)
         {

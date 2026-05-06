@@ -5,7 +5,7 @@ namespace ActiveItem
     [CreateAssetMenu(fileName = "YumHeart", menuName = "Item/Active/YumHeart")]
     public class YumHeart : ActiveItemBase
     {
-        [SerializeField] private int _healAmount = 1;
+        [SerializeField] private int _healAmount = 2; // 1칸
 
         public override void Use()
         {
@@ -16,7 +16,6 @@ namespace ActiveItem
             {
                 _currentCharge = 0;
                 GameEvents.OnActiveUsed?.Invoke();
-                // Debug.Log("야미~!!");
             }
         }
     }

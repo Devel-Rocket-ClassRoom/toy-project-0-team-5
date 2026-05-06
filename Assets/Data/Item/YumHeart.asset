@@ -15,5 +15,5 @@ MonoBehaviour:
   _id: 4
   _chargeType: 0
   _maxCharge: 4
-  _sprite: {fileID: 0}
-  _healAmount: 1
+  _sprite: {fileID: 21300000, guid: 413dbe4fa093e42688a6477134a3ea75, type: 3}
+  _healAmount: 2

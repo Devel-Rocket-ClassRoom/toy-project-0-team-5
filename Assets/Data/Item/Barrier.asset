@@ -15,4 +15,4 @@ MonoBehaviour:
   _id: 3
   _chargeType: 1
   _maxCharge: 0
-  _sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  _sprite: {fileID: 21300000, guid: 7d275730a6a5e46e0a40f95e19b6a539, type: 3}
