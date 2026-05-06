@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_Window_Pause pauseWindowUI;
     [SerializeField] private UI_Window_Gameover gameoverWindowUI;
     [SerializeField] private UI_Boss bossUI;
+    [SerializeField] private InputManager inputManager;
 
     private bool isPaused;
 
@@ -19,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (inputManager.PausePressed)
         {
             if (isPaused)
             {
