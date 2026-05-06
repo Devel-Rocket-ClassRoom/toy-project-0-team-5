@@ -10,6 +10,5 @@ public class BulletSpawner : MonoBehaviour
     {
         DefaultBullet bullet = Instantiate(_bulletPrefab, _spawnPoint.position, _spawnPoint.rotation);
         bullet.Init(_targetLayer, direction, config);
-        Debug.Log("Bullet Spawned");
     }
 }

@@ -37,6 +37,7 @@ public class RoomTransitionManager : MonoBehaviour
 
         Vector3 cameraOffset = _camera.transform.position - _player.position;
         Vector3 targetCameraPos = spawnPoint.position + cameraOffset;
+        Debug.Log($"Transitioning to {spawnPoint.name} at {spawnPoint.position}, target camera pos: {targetCameraPos}");
         Vector3 fromPos = _camera.transform.position;
         float elapsed = 0f;
 
