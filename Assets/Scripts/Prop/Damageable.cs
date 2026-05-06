@@ -12,7 +12,11 @@ public class Damageable : MonoBehaviour, IDamageable
 
     private int _currentHp;
 
+    public int MaxHp => _maxHp;
+    public int CurrentHp => _currentHp;
+
     /// <summary>HP가 0이 됐을 때 발생. Destructible 등이 구독해서 처리한다.</summary>
+    public event Action OnHit;
     public event Action OnDeath;
 
     private void Awake()
@@ -25,7 +29,9 @@ public class Damageable : MonoBehaviour, IDamageable
     {
         if (_currentHp <= 0) return;
 
-        _currentHp -= amount;
+        // 장식물들은 무조건 데미지 1로 피격
+        _currentHp -= 1;
+        OnHit?.Invoke();
 
         if (_currentHp <= 0)
         {

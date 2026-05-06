@@ -54,8 +54,11 @@ public class DefaultBullet : MonoBehaviour
             // 데미지
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                // damageable.TakeDamage(Mathf.RoundToInt(_config.Damage));
-                // TODO: AddForce
+                damageable.TakeDamage(Mathf.RoundToInt(_config.Damage));
+                if (other.TryGetComponent(out Rigidbody rb))
+                {
+                    rb.AddForce(_currentDirection.normalized * _config.Damage * _config.Speed, ForceMode.Impulse);
+                }
             }
 
             if (_config.Flags.HasFlag(BulletFlags.PIERCING))

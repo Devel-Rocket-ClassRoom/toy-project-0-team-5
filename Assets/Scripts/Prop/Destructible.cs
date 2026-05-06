@@ -16,7 +16,7 @@ public class Destructible : MonoBehaviour
         GetComponent<Damageable>().OnDeath += OnDestroyed;
     }
 
-    private void OnDestroyed()
+    protected virtual void OnDestroyed()
     {
         if (_destroyEffectPrefab != null)
             Instantiate(_destroyEffectPrefab, transform.position, Quaternion.identity);
