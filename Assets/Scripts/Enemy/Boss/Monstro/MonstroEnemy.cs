@@ -21,6 +21,13 @@ public class MonstroEnemy : EnemyBase
     [Header("Pattern 2 - Big Jump + Radial")]
     [SerializeField] private float bigJumpUpForce = 10f;
     [SerializeField] private BulletSpawner _radialSpawner;
+
+    [Header("Jump Safety")]
+    [SerializeField] private LayerMask _wallLayerMask;
+    [SerializeField] private float _landingCheckRadius = 1.5f;
+
+    [Header("Rotation")]
+    [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float radialDamage = 1f;
     [SerializeField] private float radialBulletSpeed = 6f;
     [SerializeField] private float radialBulletRange = 4f;
@@ -38,6 +45,21 @@ public class MonstroEnemy : EnemyBase
 
     // 점프 직후 착지 오판정 방지용 딜레이
     private const float JumpAirborneDelay = 0.2f;
+
+    protected override void Update()
+    {
+        base.Update();
+        FacePlayer();
+    }
+
+    private void FacePlayer()
+    {
+        if (PlayerTransform == null || IsDead) return;
+        Vector3 dir = PlayerTransform.position - transform.position;
+        dir.y = 0f;
+        if (dir.sqrMagnitude < 0.01f) return;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * _rotationSpeed);
+    }
 
     protected override BehaviorNode BuildTree()
     {
@@ -72,7 +94,7 @@ public class MonstroEnemy : EnemyBase
             bigJumpLanded = false;
 
             if (currentPattern == 2)
-                bigJumpTargetPos = PlayerTransform.position;
+                bigJumpTargetPos = GetSafeLandingPosition(PlayerTransform.position);
         }
 
         return currentPattern switch
@@ -95,7 +117,6 @@ public class MonstroEnemy : EnemyBase
     // 패턴 1: 작은 점프로 플레이어에게 접근 → 착지 시 완료
     private NodeState SmallJumpPattern()
     {
-        Debug.Log("small jump pattern executing");
         if (!isJumping)
         {
             isJumping = true;
@@ -108,7 +129,8 @@ public class MonstroEnemy : EnemyBase
             {
                 Vector3 horizontal = (PlayerTransform.position - transform.position);
                 horizontal.y = 0f;
-                Rb.AddForce(horizontal.normalized * smallJumpForce + Vector3.up * smallJumpUpForce, ForceMode.Impulse);
+                Vector3 jumpDir = GetSafeJumpDirection(horizontal.normalized, smallJumpForce, smallJumpUpForce);
+                Rb.AddForce(jumpDir * smallJumpForce + Vector3.up * smallJumpUpForce, ForceMode.Impulse);
             }
         }
 
@@ -188,6 +210,47 @@ public class MonstroEnemy : EnemyBase
     private void SnapToFloor()
     {
         Rb.MovePosition(new Vector3(transform.position.x, floorY, transform.position.z));
+    }
+
+    // 예상 착지 지점이 벽과 겹치면 안전한 방향으로 보정해 반환 (SmallJump용)
+    private Vector3 GetSafeJumpDirection(Vector3 direction, float horizontalForce, float upForce)
+    {
+        float gravity = -Physics.gravity.y;
+        float vHorizontal = horizontalForce / Rb.mass;
+        float vUp = upForce / Rb.mass;
+        float timeOfFlight = 2f * vUp / gravity;
+
+        Vector3 estimatedLanding = transform.position + direction * (vHorizontal * timeOfFlight);
+        estimatedLanding.y = transform.position.y;
+
+        Vector3 safeLanding = GetSafeLandingPosition(estimatedLanding);
+        Vector3 safeDir = safeLanding - transform.position;
+        safeDir.y = 0f;
+        return safeDir.magnitude > 0.01f ? safeDir.normalized : direction;
+    }
+
+    // 착지 예정 위치가 벽과 겹치면 벽 바깥으로 밀어낸 안전한 좌표를 반환
+    private Vector3 GetSafeLandingPosition(Vector3 targetPos)
+    {
+        // Y를 반경만큼 올려 바닥 콜라이더가 감지되지 않도록 함 (바닥과 벽이 같은 레이어인 경우 대응)
+        Vector3 checkPos = new Vector3(targetPos.x, transform.position.y + _landingCheckRadius, targetPos.z);
+
+        for (int i = 0; i < 8; i++)
+        {
+            Collider[] hits = Physics.OverlapSphere(checkPos, _landingCheckRadius, _wallLayerMask);
+            if (hits.Length == 0) break;
+
+            foreach (var hit in hits)
+            {
+                Vector3 push = checkPos - hit.ClosestPoint(checkPos);
+                push.y = 0f;
+                float overlap = _landingCheckRadius - push.magnitude;
+                if (overlap > 0f)
+                    checkPos += (push == Vector3.zero ? (checkPos - hit.transform.position).normalized : push.normalized) * (overlap + 0.05f);
+            }
+        }
+
+        return checkPos;
     }
 
     private NodeState IdleAction()
