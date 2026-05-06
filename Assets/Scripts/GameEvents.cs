@@ -15,7 +15,7 @@ public static class GameEvents
     public static Action OnActiveUsed;
 
     // --- 방 관련 ---
-    public static Action<Transform> OnRoomTransition;
+    public static Action<Transform, Transform> OnRoomTransition;
     public static Action OnTransitionStart;
     public static Action OnTransitionEnd;
     public static Action OnRoomClear;
