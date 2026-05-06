@@ -17,8 +17,8 @@ public class UI_Window_Ingame : MonoBehaviour
 
     public void Refresh()
     {
-        coinText.text = $"{playerConsumableItem.Coin:D2}";
-        bombText.text = $"{playerConsumableItem.Bomb:D2}";
-        keyText.text = $"{playerConsumableItem.Key:D2}";
+        coinText.text = $"{playerConsumableItem.CoinCount:D2}";
+        bombText.text = $"{playerConsumableItem.BombCount:D2}";
+        keyText.text = $"{playerConsumableItem.KeyCount:D2}";
     }
 }

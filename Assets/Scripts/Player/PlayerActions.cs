@@ -11,8 +11,13 @@ public class PlayerActions : MonoBehaviour
 {
     [SerializeField] private ActiveItemBase _equippedItem;
     [SerializeField] private BulletSpawner _spawner;
+
+    [SerializeField] private GameObject bombPrefab;
+    [SerializeField] private Transform bombSpawnPoint;
+
     private PlayerStats _playerStats;
     private InputManager _inputManager;
+    private PlayerConsumableItem playerConsumableItem;
 
     private BulletFlags _flags;
     private float _attackTimer;
@@ -21,6 +26,7 @@ public class PlayerActions : MonoBehaviour
     {
         _inputManager = GetComponent<InputManager>();
         _playerStats = GetComponent<PlayerStats>();
+        playerConsumableItem = GetComponent<PlayerConsumableItem>();
     }
 
     private void Update()
@@ -28,7 +34,7 @@ public class PlayerActions : MonoBehaviour
         _attackTimer += Time.deltaTime;
 
         if (_inputManager.UseActivePressed) UseCurrentItem();
-        // if (_inputManager.BombPressed) CreateBomb();
+        if (_inputManager.BombPressed && playerConsumableItem.UseBomb()) CreateBomb();
         if (_inputManager.ShootInput != Vector2.zero) OnShoot();
     }
 
@@ -47,7 +53,17 @@ public class PlayerActions : MonoBehaviour
         return currentItem;
     }
 
-    // private void CreateBomb() { }
+    private void CreateBomb()
+    {
+        if (bombPrefab == null)
+            return;
+ 
+        Instantiate(
+            bombPrefab,
+            bombSpawnPoint.position,
+            Quaternion.identity 
+            );
+    }
 
     private void OnShoot()
     {
