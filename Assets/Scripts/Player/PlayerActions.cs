@@ -37,7 +37,6 @@ public class PlayerActions : MonoBehaviour
         if (_equippedItem == null) return;
 
         _equippedItem.Use();
-        GameEvents.OnActiveUsed?.Invoke();
     }
 
     public ICollectible OnChangeActiveItem(ActiveItemBase item)

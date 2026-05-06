@@ -19,6 +19,8 @@ namespace ActiveItem
 
         public Sprite Sprite => _sprite;
 
+        public int MaxCharge => _maxCharge;
+
         public abstract void Use();
 
         public void Init()
@@ -39,7 +41,7 @@ namespace ActiveItem
             }
         }
 
-        private void OnUnequip()
+        public void OnUnequip()
         {
             switch (_chargeType)
             {
@@ -60,9 +62,14 @@ namespace ActiveItem
 
         public ICollectible Collect(GameObject collector)
         {
-            Debug.Log("아이템 획득: " + GetType().Name);
+            OnEquip();
             var playerActions = collector.GetComponent<PlayerActions>();
             var currentItem = playerActions.OnChangeActiveItem(this);
+            if (currentItem != null)
+            {
+                ActiveItemBase oldItem = currentItem as ActiveItemBase;
+                oldItem.OnUnequip();
+            }
             return currentItem;
         }
     }

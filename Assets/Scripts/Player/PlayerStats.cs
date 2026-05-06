@@ -26,7 +26,7 @@ public class PlayerStats : MonoBehaviour
     private float CalcStat(PlayerStatType type, float baseValue)
     {
         var relevant = _modifiers.Where(m => m.StatType == type);
-        float add = relevant.Where(m => m.Type == ModifierType.Addtive).Sum(m => m.Value);
+        float add = relevant.Where(m => m.Type == ModifierType.Additive).Sum(m => m.Value);
         float mul = relevant.Where(m => m.Type == ModifierType.Multiplicative).Aggregate(1f, (acc, m) => acc * m.Value);
         return (baseValue + add) * mul;
     }
