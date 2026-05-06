@@ -4,16 +4,15 @@ using System;
 
 public class PlayerConsumableItem : MonoBehaviour
 {
-    private int coin;
-    private int bomb;
-    private int key;
+    private int coinCount;
+    private int bombCount;
+    private int keyCount;
 
-    public int Coin => coin;
-    public int Bomb => bomb;
-    public int Key => key;
+    public int CoinCount => coinCount;
+    public int BombCount => bombCount;
+    public int KeyCount => keyCount;
 
     public event Action OnItemChanged;
-    public Player player;
 
 
     public void AddItem(ItemType itemType, int amount)
@@ -21,30 +20,41 @@ public class PlayerConsumableItem : MonoBehaviour
         switch (itemType)
         {
             case ItemType.Coin:
-                coin += amount;
+                coinCount += amount;
                 break;
 
             case ItemType.Bomb:
-                bomb += amount;
+                bombCount += amount;
                 break;
 
             case ItemType.Key:
-                key += amount;
-                break;
-            case ItemType.Heart:
-                player.Health.OnHeal(amount);
+                keyCount += amount;
                 break;
         }
         OnItemChanged?.Invoke();
     }
 
-    public void UseBomb(int amount)
+    public bool UseBomb(int amount = 1)
     {
+        if (bombCount < amount)
+            return false;
 
+        bombCount -= amount;
+
+        OnItemChanged?.Invoke();
+
+        return true;
     }
 
-    public void UseKey(int amount)
+    public bool UseKey(int amount = 1)
     {
+        if (keyCount < amount)
+            return false;
 
+        keyCount -= amount;
+
+        OnItemChanged?.Invoke();
+
+        return true;
     }
 }
