@@ -6,7 +6,7 @@ public class MapGenerator
     private readonly int _totalRooms;
     private readonly int _maxBranch;
 
-    public MapGenerator(int totalRooms = 10, int maxBranch = 4)
+    public MapGenerator(int totalRooms = 8, int maxBranch = 2)
     {
         _totalRooms = totalRooms;
         _maxBranch = maxBranch;
@@ -75,8 +75,9 @@ public class MapGenerator
         }
 
         Shuffle(deadEnds);
-        if (deadEnds.Count > 0) deadEnds[0].RoomType = RoomType.Shop;
-        if (deadEnds.Count > 1) deadEnds[1].RoomType = RoomType.Treasure;
+        if (deadEnds.Count > 0) deadEnds[0].RoomType = RoomType.Treasure;
+        if (deadEnds.Count > 1) deadEnds[1].RoomType = RoomType.Shop;
+        Debug.Log($"DeadEnds: {deadEnds.Count} | Boss: {(farthest != null ? farthest.GridPosition.ToString() : "none")}");
     }
 
     private void AssignDoorFlags(Dictionary<Vector2Int, RoomNode> rooms)
@@ -103,10 +104,10 @@ public class MapGenerator
     private int CountNeighbors(Vector2Int pos, Dictionary<Vector2Int, RoomNode> rooms)
     {
         int count = 0;
-        if (rooms.ContainsKey(pos + Vector2Int.up))    count++;
-        if (rooms.ContainsKey(pos + Vector2Int.down))  count++;
+        if (rooms.ContainsKey(pos + Vector2Int.up)) count++;
+        if (rooms.ContainsKey(pos + Vector2Int.down)) count++;
         if (rooms.ContainsKey(pos + Vector2Int.right)) count++;
-        if (rooms.ContainsKey(pos + Vector2Int.left))  count++;
+        if (rooms.ContainsKey(pos + Vector2Int.left)) count++;
         return count;
     }
 

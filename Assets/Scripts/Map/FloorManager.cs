@@ -32,7 +32,7 @@ public class FloorManager : MonoBehaviour
             var controller = instance.GetComponent<RoomController>();
             if (controller == null) continue;
 
-            controller.Init(node.GridPosition, node.DoorFlags);
+            controller.Init(node.GridPosition, node.DoorFlags, this);
             _rooms[node.GridPosition] = controller;
 
             if (node.RoomType == RoomType.Start)
@@ -53,11 +53,14 @@ public class FloorManager : MonoBehaviour
         var spawnPoint = nextRoom.GetSpawnPoint(oppositeFlag);
 
         if (spawnPoint != null)
-            GameEvents.OnRoomTransition?.Invoke(spawnPoint);
+            GameEvents.OnRoomTransition?.Invoke(spawnPoint, nextRoom.transform);
+
+        // currentRoom.gameObject.SetActive(false);
     }
 
     private void ActivateRoom(RoomController room)
     {
+        // room.gameObject.SetActive(true);
         _currentRoom = room;
         room.OnRoomEnter();
     }
@@ -74,9 +77,9 @@ public class FloorManager : MonoBehaviour
         {
             DoorFlags.North => Vector2Int.up,
             DoorFlags.South => Vector2Int.down,
-            DoorFlags.East  => Vector2Int.right,
-            DoorFlags.West  => Vector2Int.left,
-            _               => Vector2Int.zero,
+            DoorFlags.East => Vector2Int.right,
+            DoorFlags.West => Vector2Int.left,
+            _ => Vector2Int.zero,
         };
     }
 
@@ -86,9 +89,9 @@ public class FloorManager : MonoBehaviour
         {
             DoorFlags.North => DoorFlags.South,
             DoorFlags.South => DoorFlags.North,
-            DoorFlags.East  => DoorFlags.West,
-            DoorFlags.West  => DoorFlags.East,
-            _               => DoorFlags.None,
+            DoorFlags.East => DoorFlags.West,
+            DoorFlags.West => DoorFlags.East,
+            _ => DoorFlags.None,
         };
     }
 

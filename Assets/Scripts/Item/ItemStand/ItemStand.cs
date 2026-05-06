@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class ItemStand : MonoBehaviour
 {
-    [SerializeField] private ItemTable _itemTable;
     [SerializeField] private SpriteRenderer _renderer; // 현재 단상 위 아이템 스프라이트
 
+    private ItemTable _itemTable;
     private ICollectible _currentItem;
     private bool _collectFlag;
 
     public ICollectible CurrentItem => _currentItem;
     public bool CollectFlag => _collectFlag;
+
+    private void Awake()
+    {
+        _itemTable = GameObject.FindWithTag("ItemTable").GetComponent<ItemTable>();
+    }
 
     private void Start()
     {

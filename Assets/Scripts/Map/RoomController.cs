@@ -18,7 +18,7 @@ public class RoomController : MonoBehaviour
     private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
     private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
 
-    public void Init(Vector2Int gridPosition, DoorFlags doorFlags)
+    public void Init(Vector2Int gridPosition, DoorFlags doorFlags, FloorManager floorManager)
     {
         GridPosition = gridPosition;
         IsCleared = false;
@@ -27,10 +27,28 @@ public class RoomController : MonoBehaviour
             .Select(e => e.gameObject)
             .ToList();
 
-        _doorNorth?.gameObject.SetActive((doorFlags & DoorFlags.North) != 0);
-        _doorSouth?.gameObject.SetActive((doorFlags & DoorFlags.South) != 0);
-        _doorEast?.gameObject.SetActive((doorFlags & DoorFlags.East) != 0);
-        _doorWest?.gameObject.SetActive((doorFlags & DoorFlags.West) != 0);
+        if ((doorFlags & DoorFlags.North) != 0)
+        {
+            _doorNorth.Init(floorManager);
+            _doorNorth.gameObject.SetActive(true);
+        }
+        if ((doorFlags & DoorFlags.South) != 0)
+        {
+            _doorSouth.Init(floorManager);
+            _doorSouth.gameObject.SetActive(true);
+        }
+        if ((doorFlags & DoorFlags.East) != 0)
+        {
+            _doorEast.Init(floorManager);
+            _doorEast.gameObject.SetActive(true);
+        }
+        if ((doorFlags & DoorFlags.West) != 0)
+        {
+            _doorWest.Init(floorManager);
+            _doorWest.gameObject.SetActive(true);
+        }
+
+        // gameObject.SetActive(false);
     }
 
     public void OnRoomEnter()
