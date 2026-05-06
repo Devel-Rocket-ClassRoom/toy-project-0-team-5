@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_Window_Pause pauseWindowUI;
     [SerializeField] private UI_Window_Gameover gameoverWindowUI;
     [SerializeField] private UI_Boss bossUI;
+    [SerializeField] private InputManager inputManager;
 
     private bool isPaused;
 
@@ -15,11 +17,13 @@ public class UIManager : MonoBehaviour
         pauseWindowUI.Hide();
         gameoverWindowUI.Hide();
         bossUI.Hide();
+
+        gameoverWindowUI.Init(this);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (inputManager.PausePressed)
         {
             if (isPaused)
             {
@@ -30,13 +34,30 @@ public class UIManager : MonoBehaviour
                 PauseGame();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            
-            ShowGameOver();
-        }
     }
+
+    private void OnEnable()
+    {
+        GameEvents.OnPlayerDie += OnPlayerDie;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnPlayerDie -= OnPlayerDie;
+    }
+
+    private void OnPlayerDie()
+    {
+        StartCoroutine(CoShowGameOver());
+    }
+
+    private IEnumerator CoShowGameOver()
+    {
+        yield return new WaitForSeconds(2f);
+        ShowGameOver();
+    }
+
+    
 
 
     public void PauseGame()

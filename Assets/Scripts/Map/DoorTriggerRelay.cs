@@ -4,7 +4,7 @@ using UnityEngine;
 // 트리거 이벤트를 부모 DoorController로 전달한다.
 public class DoorTriggerRelay : MonoBehaviour
 {
-    private DoorController _door;
+    [SerializeField] private DoorController _door;
 
     private void Awake()
     {
@@ -13,6 +13,7 @@ public class DoorTriggerRelay : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("DoorTriggerRelay.OnTriggerEnter");
         _door?.OnPlayerEnter(other);
     }
 }

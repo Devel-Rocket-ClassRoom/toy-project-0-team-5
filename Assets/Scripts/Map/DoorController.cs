@@ -5,6 +5,7 @@ public class DoorController : MonoBehaviour
     public DoorFlags Direction;
     public Transform SpawnPoint;
 
+    [SerializeField] private RoomController _room;
     // 잠금 시 플레이어를 막는 벽 콜라이더 (non-trigger)
     [SerializeField] private Collider _wallCollider;
     // 개방 시 플레이어 통과를 감지하는 트리거 콜라이더 (trigger)
@@ -14,8 +15,12 @@ public class DoorController : MonoBehaviour
 
     private void Awake()
     {
-        _floorManager = GetComponentInParent<FloorManager>(true)
-                     ?? FindFirstObjectByType<FloorManager>();
+        gameObject.SetActive(false);
+    }
+
+    public void Init(FloorManager floorManager)
+    {
+        _floorManager = floorManager;
         SetLocked(true);
     }
 
@@ -28,7 +33,7 @@ public class DoorController : MonoBehaviour
     public void OnPlayerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        var room = GetComponentInParent<RoomController>();
-        _floorManager?.OnPlayerEnterDoor(room, Direction);
+
+        _floorManager?.OnPlayerEnterDoor(_room, Direction);
     }
 }

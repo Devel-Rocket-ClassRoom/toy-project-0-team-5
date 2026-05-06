@@ -56,8 +56,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (_currentHp <= 0)
             {
                 _currentHp = 0;
+                GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+
                 playerAnimator.PlayDie();
                 Die();
+                return;
             }
 
             playerAnimator.PlayDamage();
@@ -66,10 +69,26 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         GameEvents.OnPlayerHit?.Invoke();
     }
 
-    private void Die()
+    public bool OnHeal(int amount)
     {
-        Debug.Log("Die");
+        if (_currentHp >= _maxHp) return false;
+
+        _currentHp = Mathf.Min(_currentHp + amount, _maxHp);
+        GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
+
+        return true;
     }
 
-    public void SetProtected(bool isProtected) => _isProtected = isProtected;
+    private void Die()
+    {
+        GameEvents.OnPlayerDie?.Invoke();
+    }
+
+    public bool SetProtected(bool isProtected)
+    {
+        if (_isProtected == isProtected) return false;
+
+        _isProtected = isProtected;
+        return true;
+    }
 }
