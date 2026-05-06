@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PlayerItem : MonoBehaviour
+public class PlayerConsumableItem : MonoBehaviour
 {
     private int coin;
     private int bomb;
@@ -31,9 +31,9 @@ public class PlayerItem : MonoBehaviour
             case ItemType.Key:
                 key += amount;
                 break;
-            //case ItemType.Heart:
-                //player.Health.Heal(amount);
-               // break;
+            case ItemType.Heart:
+                player.Health.OnHeal(amount);
+                break;
         }
         OnItemChanged?.Invoke();
     }

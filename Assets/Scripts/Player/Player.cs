@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public PlayerAttack Attack { get; private set; }
     public PlayerMovement Movement { get; private set; }
     public PlayerAnimator Animator { get; private set; }
-    public PlayerItem Item { get; private set;  }
+    public PlayerConsumableItem Item { get; private set;  }
 
     private void Awake()
     {
@@ -15,6 +15,6 @@ public class Player : MonoBehaviour
         Attack = GetComponent<PlayerAttack>();
         Movement = GetComponent<PlayerMovement>(); 
         Animator = GetComponent<PlayerAnimator>();
-        Item = GetComponent<PlayerItem>();
+        Item = GetComponent<PlayerConsumableItem>();
     }
 }

@@ -8,11 +8,12 @@ public class UI_Window_Gameover : MonoBehaviour
 
     private UIManager uiManager;
 
-    private void Init(UIManager manager)
+    public void Init(UIManager manager)
     {
         uiManager = manager;
 
-        exitButton.onClick.AddListener(uiManager.ShowGameOver);
+        exitButton.onClick.RemoveAllListeners();
+        exitButton.onClick.AddListener(uiManager.ResumeGame);
     }
 
     public void Show()
