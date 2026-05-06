@@ -1067,14 +1067,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e8a2b5445cd28409cc265bf9365a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonstroSpreadAttack
-  attackRange: 3
+  attackRange: 6
   cooldown: 2
   knockbackForce: 5
   attackDuration: 0.4
   _spawner: {fileID: 564743664}
   damage: 1
   bulletSpeed: 8
-  bulletRange: 3
+  bulletRange: 15
   bulletCount: 5
   spreadAngle: 45
 --- !u!114 &1197397056
