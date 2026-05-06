@@ -1,6 +1,6 @@
 public enum ModifierType
 {
-    Addtive,
+    Additive,
     Multiplicative
 }
 
