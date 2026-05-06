@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class UIManager : MonoBehaviour
         pauseWindowUI.Hide();
         gameoverWindowUI.Hide();
         bossUI.Hide();
+
+        gameoverWindowUI.Init(this);
     }
 
     private void Update()
@@ -31,13 +34,30 @@ public class UIManager : MonoBehaviour
                 PauseGame();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            
-            ShowGameOver();
-        }
     }
+
+    private void OnEnable()
+    {
+        GameEvents.OnPlayerDie += OnPlayerDie;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnPlayerDie -= OnPlayerDie;
+    }
+
+    private void OnPlayerDie()
+    {
+        StartCoroutine(CoShowGameOver());
+    }
+
+    private IEnumerator CoShowGameOver()
+    {
+        yield return new WaitForSeconds(2f);
+        ShowGameOver();
+    }
+
+    
 
 
     public void PauseGame()
