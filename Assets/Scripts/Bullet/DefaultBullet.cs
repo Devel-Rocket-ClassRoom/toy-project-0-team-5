@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class DefaultBullet : MonoBehaviour
 {
+    [SerializeField] private AudioClip _hitSound;
+
     private LayerMask _targetLayers;
     private Rigidbody _rb;
     private BulletConfig _config;
@@ -67,6 +69,8 @@ public class DefaultBullet : MonoBehaviour
             }
             else
             {
+                if (_hitSound != null)
+                    AudioSource.PlayClipAtPoint(_hitSound, Camera.main.transform.position);
                 Destroy(gameObject);
             }
         }
