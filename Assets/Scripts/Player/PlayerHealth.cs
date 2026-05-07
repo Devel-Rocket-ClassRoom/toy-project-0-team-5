@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _maxHp = 6;
-    [SerializeField] private float _invincibilityDuration = 1f;
+    [SerializeField] private float _invincibilityDuration = 2f;
     [SerializeField] private float _blinkInterval = 0.1f;
 
     private int _currentHp;
