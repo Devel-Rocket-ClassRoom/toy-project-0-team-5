@@ -299,6 +299,11 @@ public class MonstroEnemy : EnemyBase
         _animator.speed = jumping ? jumpAnimSpeed : 1f;
     }
 
+    public override void Hit()
+    {
+        Rb.linearVelocity = Vector3.zero;
+    }
+
     private NodeState DeadAction()
     {
         if (!_dieAnimTriggered)

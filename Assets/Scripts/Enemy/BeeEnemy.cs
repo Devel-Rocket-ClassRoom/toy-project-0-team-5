@@ -3,7 +3,9 @@ using UnityEngine;
 // Bee 비행 몬스터 BT 우선순위:
 //   1. 사망     : 체력 <= 0 → Die()
 //   2. 피격경직 : 피격 직후 경직
-//   3. 추적     : 한 번 탐색 범위 진입 후 영구 추적 (XZ 평면, 벽 슬라이딩)
+//   3. 추적/공전: 한 번 탐색 범위 진입 후 영구 활성
+//      - 공전 모드(_orbitCenter != null): Bee King 주위를 일정 반경으로 공전
+//      - 추적 모드: 지정된 타겟(기본 플레이어) XZ 추적 (벽 슬라이딩)
 //   4. 순찰     : 랜덤 이동 (벽 감지 시 방향 재선택)
 //
 // 데미지는 BT가 아닌 DamageOnContact 컴포넌트가 OnTriggerStay로 자동 처리한다.
@@ -27,6 +29,33 @@ public class BeeEnemy : EnemyBase
     private bool _isAggro;
     private bool _dieAnimTriggered;
 
+    // 추적 모드
+    private Transform _chaseTarget;
+    private Transform ChaseTarget => _chaseTarget != null ? _chaseTarget : PlayerTransform;
+
+    // 공전 모드 (Bee King 주위)
+    private Transform _orbitCenter;
+    private float _orbitRadius;
+    private float _orbitAngle;
+
+    // BeeKingEnemy 소환 직후: 일정 반경 공전
+    public void ForceOrbit(Transform center, float radius)
+    {
+        _isAggro = true;
+        _orbitCenter = center;
+        _orbitRadius = radius;
+        _orbitAngle = Random.Range(0f, 360f);
+        _chaseTarget = null;
+    }
+
+    // BeeKingEnemy 릴리즈 시: 지정 타겟(플레이어) 직접 추적
+    public void ForceChase(Transform target)
+    {
+        _isAggro = true;
+        _orbitCenter = null;
+        _chaseTarget = target;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -43,9 +72,20 @@ public class BeeEnemy : EnemyBase
     private void UpdateFacing()
     {
         if (IsDead) return;
-        Vector3 targetDir = (_isAggro && PlayerTransform != null)
-            ? (PlayerTransform.position - transform.position)
-            : _patrolDir;
+        Vector3 targetDir;
+        if (_isAggro)
+        {
+            if (_orbitCenter != null)
+                targetDir = _orbitCenter.position - transform.position;
+            else if (ChaseTarget != null)
+                targetDir = ChaseTarget.position - transform.position;
+            else
+                targetDir = _patrolDir;
+        }
+        else
+        {
+            targetDir = _patrolDir;
+        }
         targetDir.y = 0f;
         if (targetDir.sqrMagnitude < 0.01f) return;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * _rotationSpeed);
@@ -68,8 +108,17 @@ public class BeeEnemy : EnemyBase
 
     private void ChaseXZ()
     {
-        if (PlayerTransform == null) return;
-        Vector3 dir = PlayerTransform.position - transform.position;
+        // 공전 중이라도 플레이어가 절반 탐지 범위 안에 들어오면 직접 추적으로 전환
+        if (_orbitCenter != null && PlayerTransform != null &&
+            Vector3.Distance(transform.position, PlayerTransform.position) <= SearchRange * 0.5f)
+        {
+            ForceChase(PlayerTransform);
+        }
+
+        if (_orbitCenter != null) { OrbitAround(); return; }
+
+        if (ChaseTarget == null) return;
+        Vector3 dir = ChaseTarget.position - transform.position;
         dir.y = 0f;
         dir.Normalize();
 
@@ -85,6 +134,35 @@ public class BeeEnemy : EnemyBase
         }
 
         Rb.linearVelocity = dir * MoveSpeed;
+    }
+
+    private void OrbitAround()
+    {
+        // Bee King이 사망하면 플레이어 추적으로 전환
+        if (_orbitCenter == null) { _chaseTarget = null; return; }
+
+        _orbitAngle += MoveSpeed / _orbitRadius * Mathf.Rad2Deg * Time.deltaTime;
+
+        float rad = _orbitAngle * Mathf.Deg2Rad;
+        Vector3 targetPos = _orbitCenter.position + new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * _orbitRadius;
+
+        Vector3 dir = targetPos - transform.position;
+        dir.y = 0f;
+
+        if (dir.magnitude < 0.15f)
+        {
+            Rb.linearVelocity = Vector3.zero;
+            return;
+        }
+
+        Vector3 moveDir = dir.normalized;
+        if (Physics.Raycast(transform.position, moveDir, _wallCheckDistance, _wallLayerMask))
+        {
+            Rb.linearVelocity = Vector3.zero;
+            return;
+        }
+
+        Rb.linearVelocity = moveDir * MoveSpeed;
     }
 
     private void WallAwarePatrol()
@@ -117,8 +195,8 @@ public class BeeEnemy : EnemyBase
 
     private bool ShouldChase()
     {
-        if (PlayerTransform == null) return false;
-        if (!_isAggro && Vector3.Distance(transform.position, PlayerTransform.position) <= SearchRange)
+        if (!_isAggro && PlayerTransform != null &&
+            Vector3.Distance(transform.position, PlayerTransform.position) <= SearchRange)
             _isAggro = true;
         return _isAggro;
     }
