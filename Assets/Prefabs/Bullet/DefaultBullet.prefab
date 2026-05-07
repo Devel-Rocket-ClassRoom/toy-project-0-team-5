@@ -153,3 +153,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d4550d85a41bf4b8a7d1107994fe5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultBullet
+  _hitSound: {fileID: 8300000, guid: 1f18f82108b78544eb9fd2896d4b721f, type: 3}
