@@ -222,16 +222,6 @@ MonoBehaviour:
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: 6fae77a3217e19e47ae630bd41818a75, type: 3}
-  - Id: 0
-    RoomType: 1
-    DoorFlags: 0
-    Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: e8b1b7add059c024fb4793866fa39b82, type: 3}
-  - Id: 0
-    RoomType: 1
-    DoorFlags: 0
-    Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: b22f20e4b054622499a9a19095f39827, type: 3}
   _roomSpacing: 45
   _totalRooms: 8
 --- !u!114 &285147180
@@ -250,6 +240,55 @@ MonoBehaviour:
   _player: {fileID: 1130781959}
   _slideDuration: 0.3
   _triggerCooldown: 0.1
+--- !u!1 &459896766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459896768}
+  - component: {fileID: 459896767}
+  m_Layer: 0
+  m_Name: Post-processing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &459896767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459896766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: ee70989661d11fd42b10e4f5c55f8c9f, type: 2}
+--- !u!4 &459896768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459896766}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.18611127, y: 2.770686, z: 0.7453257}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909366914
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +494,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -863,6 +902,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1177689307}
   - {fileID: 1520005392}
+  - {fileID: 459896768}
   - {fileID: 99692096}
   - {fileID: 1686232211}
   - {fileID: 4382596684506031909}

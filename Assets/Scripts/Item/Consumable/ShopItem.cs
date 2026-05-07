@@ -1,14 +1,18 @@
+using TMPro;
 using UnityEngine;
 
 public class ShopItem : MonoBehaviour
 {
     [SerializeField] private ItemPickup itemPickup;
     [SerializeField] private int price;
+    [SerializeField] private TMP_Text priceText;
 
 
     private void Awake()
     {
         itemPickup.enabled = false;
+
+        priceText.text = $"{price:D1}개";
     }
 
     private void OnTriggerEnter(Collider other)
