@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5a6f6cf4efc8449984c344cd75e5db, type: 3}
   m_Name: DefaultStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
-  _damage: 1
+  _damage: 3.5
   _delay: 30
-  _range: 3
-  _shotSpeed: 5
-  _speed: 5
+  _range: 30
+  _shotSpeed: 10
+  _speed: 10
   _luck: 0

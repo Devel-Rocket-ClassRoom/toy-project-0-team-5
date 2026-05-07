@@ -14,6 +14,7 @@ public class SkeletonAttack : EnemyAttackBase
 
         foreach (var hit in hits)
         {
+            Debug.Log("SkeletonAttack hit: " + hit.name);
             if (hit.TryGetComponent<IDamageable>(out var damageable))
                 damageable.TakeDamage(damage);
         }
