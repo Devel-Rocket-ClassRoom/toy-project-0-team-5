@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class DefaultBullet : MonoBehaviour
+public class DefaultBullet : BulletBase
 {
     [SerializeField] private AudioClip _hitSound;
 
@@ -14,7 +14,7 @@ public class DefaultBullet : MonoBehaviour
     private HashSet<Collider> _hitted = new();
     private float _lifeTime;
 
-    public void Init(LayerMask targetLayer, Vector3 direction, BulletConfig config)
+    public override void Init(LayerMask targetLayer, Vector3 direction, BulletConfig config)
     {
         _targetLayers = targetLayer;
         _currentDirection = direction;

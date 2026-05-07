@@ -18,7 +18,7 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
     [Header("Summon")]
     [SerializeField] private GameObject _beePrefab;
     [SerializeField] private int _summonCount = 4;
-    [SerializeField] private int _maxSummonedBees = 8;
+    [SerializeField] private int _maxSummonedBees = 12;
     [SerializeField] private float _summonRadius = 2.5f;
 
     [Header("Wall Avoidance")]
@@ -189,26 +189,17 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
     private Vector3 GetSafeSpawnPosition(Vector3 desiredPos)
     {
         const float checkRadius = 0.4f;
-        if (IsSpawnSafe(desiredPos, checkRadius))
+        if (!Physics.CheckSphere(desiredPos, checkRadius, _wallLayerMask))
             return desiredPos;
 
         for (int i = 0; i < 16; i++)
         {
             float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
             Vector3 candidate = transform.position + new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * _summonRadius;
-            if (IsSpawnSafe(candidate, checkRadius))
+            if (!Physics.CheckSphere(candidate, checkRadius, _wallLayerMask))
                 return candidate;
         }
         return transform.position;
-    }
-
-    private bool IsSpawnSafe(Vector3 pos, float radius)
-    {
-        if (Physics.CheckSphere(pos, radius, _wallLayerMask)) return false;
-        Vector3 dir = pos - transform.position;
-        dir.y = 0f;
-        float dist = dir.magnitude;
-        return dist < 0.01f || !Physics.Raycast(transform.position, dir.normalized, dist, _wallLayerMask);
     }
 
     private void CleanDeadBees()
