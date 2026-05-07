@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class RoomController : MonoBehaviour
 {
     public Vector2Int GridPosition;
@@ -18,7 +19,7 @@ public class RoomController : MonoBehaviour
     private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
     private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
 
-    public void Init(Vector2Int gridPosition, DoorFlags doorFlags, FloorManager floorManager)
+    public void Init(Vector2Int gridPosition, DoorFlags doorFlags, FloorManager floorManager, Dictionary<DoorFlags, RoomType> neighborTypes)
     {
         GridPosition = gridPosition;
         IsCleared = false;
@@ -27,24 +28,29 @@ public class RoomController : MonoBehaviour
             .Select(e => e.gameObject)
             .ToList();
 
+        _doorNorth?.gameObject.SetActive(false);
+        _doorSouth?.gameObject.SetActive(false);
+        _doorEast?.gameObject.SetActive(false);
+        _doorWest?.gameObject.SetActive(false);
+
         if ((doorFlags & DoorFlags.North) != 0)
         {
-            _doorNorth.Init(floorManager);
+            _doorNorth.Init(floorManager, neighborTypes.GetValueOrDefault(DoorFlags.North, RoomType.Normal));
             _doorNorth.gameObject.SetActive(true);
         }
         if ((doorFlags & DoorFlags.South) != 0)
         {
-            _doorSouth.Init(floorManager);
+            _doorSouth.Init(floorManager, neighborTypes.GetValueOrDefault(DoorFlags.South, RoomType.Normal));
             _doorSouth.gameObject.SetActive(true);
         }
         if ((doorFlags & DoorFlags.East) != 0)
         {
-            _doorEast.Init(floorManager);
+            _doorEast.Init(floorManager, neighborTypes.GetValueOrDefault(DoorFlags.East, RoomType.Normal));
             _doorEast.gameObject.SetActive(true);
         }
         if ((doorFlags & DoorFlags.West) != 0)
         {
-            _doorWest.Init(floorManager);
+            _doorWest.Init(floorManager, neighborTypes.GetValueOrDefault(DoorFlags.West, RoomType.Normal));
             _doorWest.gameObject.SetActive(true);
         }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6155170605529720783}
   - component: {fileID: 2984336943349821892}
   - component: {fileID: 8064268941486437325}
-  - component: {fileID: 4964741229967931985}
+  - component: {fileID: 626540822454304568}
   m_Layer: 8
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 433481510730484793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.09896, y: 0, z: 5.08512}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 13cf2678cca1dbd42b0e7d1e6cda019d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &4964741229967931985
+--- !u!114 &626540822454304568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,5 +153,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4add8c481f5554ba9e44f2c11f94c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  damage: 1
-  lifeTime: 3
