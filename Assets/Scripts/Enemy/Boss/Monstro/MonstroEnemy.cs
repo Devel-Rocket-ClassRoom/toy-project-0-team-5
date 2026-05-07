@@ -10,6 +10,9 @@ using UnityEngine;
 //   4. 대기     : 쿨다운 카운트다운 후 다음 패턴 대기
 public class MonstroEnemy : EnemyBase
 {
+    [Header("Animation")]
+    [SerializeField] private float jumpAnimSpeed = 0.3f;
+
     [Header("Pattern Settings")]
     [SerializeField] private float patternCooldown = 2f;
     [SerializeField] private float attackRange = 8f;
@@ -33,6 +36,13 @@ public class MonstroEnemy : EnemyBase
     [SerializeField] private float radialBulletRange = 4f;
     [SerializeField] private int radialBulletCount = 8;
 
+    private Animator _animator;
+    private static readonly int IsJumping      = Animator.StringToHash("isJumping");
+    private static readonly int SpreadAttackId = Animator.StringToHash("spreadAttack");
+    private static readonly int HitId          = Animator.StringToHash("hit");
+    private static readonly int DieId          = Animator.StringToHash("die");
+
+    private bool _dieAnimTriggered;
     private float patternCooldownTimer;
     private float hitStunTimer;
     private bool isExecutingPattern;
@@ -45,6 +55,12 @@ public class MonstroEnemy : EnemyBase
 
     // 점프 직후 착지 오판정 방지용 딜레이
     private const float JumpAirborneDelay = 0.2f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _animator = GetComponent<Animator>();
+    }
 
     protected override void Update()
     {
@@ -110,6 +126,7 @@ public class MonstroEnemy : EnemyBase
     private NodeState SpreadShotPattern()
     {
         Rb.linearVelocity = Vector3.zero;
+        if (_animator != null) _animator.SetTrigger(SpreadAttackId);
         Attack();
         return FinishPattern();
     }
@@ -124,6 +141,7 @@ public class MonstroEnemy : EnemyBase
             floorY = transform.position.y;
             Rb.linearVelocity = Vector3.zero;
             Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            SetJumpAnim(true);
 
             if (PlayerTransform != null)
             {
@@ -136,6 +154,7 @@ public class MonstroEnemy : EnemyBase
 
         if (!IsGrounded()) return NodeState.Running;
 
+        SetJumpAnim(false);
         SnapToFloor();
         Rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         Rb.linearVelocity = Vector3.zero;
@@ -145,7 +164,6 @@ public class MonstroEnemy : EnemyBase
     // 패턴 2: 플레이어 위치로 큰 점프 → 착지 시 방사형 발사
     private NodeState BigJumpPattern()
     {
-        Debug.Log("big jump pattern executing");
         if (!isJumping)
         {
             isJumping = true;
@@ -153,6 +171,7 @@ public class MonstroEnemy : EnemyBase
             floorY = transform.position.y;
             Rb.linearVelocity = Vector3.zero;
             Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            SetJumpAnim(true);
 
             // 체공 시간으로 역산한 수평 속도 → 목표 지점에 정확히 착지
             float gravity = -Physics.gravity.y;
@@ -171,6 +190,7 @@ public class MonstroEnemy : EnemyBase
         if (!bigJumpLanded)
         {
             bigJumpLanded = true;
+            SetJumpAnim(false);
             SnapToFloor();
             Rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             Rb.linearVelocity = Vector3.zero;
@@ -272,8 +292,20 @@ public class MonstroEnemy : EnemyBase
     private void TickPatternCooldown() => patternCooldownTimer = Mathf.Max(0f, patternCooldownTimer - Time.deltaTime);
     private void StartPatternCooldown() => patternCooldownTimer = patternCooldown;
 
+    private void SetJumpAnim(bool jumping)
+    {
+        if (_animator == null) return;
+        _animator.SetBool(IsJumping, jumping);
+        _animator.speed = jumping ? jumpAnimSpeed : 1f;
+    }
+
     private NodeState DeadAction()
     {
+        if (!_dieAnimTriggered)
+        {
+            _dieAnimTriggered = true;
+            if (_animator != null) _animator.SetTrigger(DieId);
+        }
         Die();
         return NodeState.Running;
     }
@@ -283,6 +315,7 @@ public class MonstroEnemy : EnemyBase
         if (hitStunTimer <= 0f)
         {
             hitStunTimer = HitStunDuration;
+            if (_animator != null) _animator.SetTrigger(HitId);
             Hit();
         }
 

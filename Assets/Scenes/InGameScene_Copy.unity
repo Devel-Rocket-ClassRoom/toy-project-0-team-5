@@ -1045,17 +1045,6 @@ Transform:
   - {fileID: 1817341295}
   m_Father: {fileID: 1585103958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &719972218 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6695199876129851063, guid: 1d11597fe30d6794383b5d57ff5306b8, type: 3}
-  m_PrefabInstance: {fileID: 1687009251}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def3ec276536552458e366aa9411651f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletSpawner
 --- !u!1 &735774501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,10 +1742,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat_Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2004564378176708641, guid: 45e9ca0f050cb1c43b7bf0ed6ce09323, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4263854746409993396, guid: 45e9ca0f050cb1c43b7bf0ed6ce09323, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.70975
@@ -2009,6 +1994,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActions
   _equippedItem: {fileID: 0}
   _spawner: {fileID: 1130781960}
+  bombPrefab: {fileID: 0}
+  bombSpawnPoint: {fileID: 0}
 --- !u!114 &1130781962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2979,18 +2966,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4593010734294121198, guid: fd0a980aea17daa4d99898749659b908, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4593010734294121198, guid: fd0a980aea17daa4d99898749659b908, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4593010734294121198, guid: fd0a980aea17daa4d99898749659b908, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4593010734294121198, guid: fd0a980aea17daa4d99898749659b908, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.00751
       objectReference: {fileID: 0}
@@ -3033,10 +3008,6 @@ PrefabInstance:
     - target: {fileID: 7455902964127376280, guid: fd0a980aea17daa4d99898749659b908, type: 3}
       propertyPath: m_Name
       value: Flower_Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 7455902964127376280, guid: fd0a980aea17daa4d99898749659b908, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3630,10 +3601,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2023812424098319386, guid: 1d11597fe30d6794383b5d57ff5306b8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3724,7 +3691,7 @@ MonoBehaviour:
   cooldown: 2
   knockbackForce: 5
   attackDuration: 0.4
-  _spawner: {fileID: 719972218}
+  _spawner: {fileID: 0}
   damage: 1
   bulletSpeed: 8
   bulletRange: 15
@@ -3750,12 +3717,13 @@ MonoBehaviour:
   searchRange: 20
   patrolDirectionInterval: 2
   patrolSpeedMultiplier: 0.5
+  jumpAnimSpeed: 0.3
   patternCooldown: 2
   attackRange: 20
   smallJumpForce: 7
   smallJumpUpForce: 5
   bigJumpUpForce: 10
-  _radialSpawner: {fileID: 719972218}
+  _radialSpawner: {fileID: 0}
   _wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
