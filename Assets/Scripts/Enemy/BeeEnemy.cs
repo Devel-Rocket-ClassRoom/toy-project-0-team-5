@@ -76,7 +76,12 @@ public class BeeEnemy : EnemyBase
         if (_isAggro)
         {
             if (_orbitCenter != null)
-                targetDir = _orbitCenter.position - transform.position;
+            {
+                // 공전 이동 방향(접선)을 바라봄 — outward × up = CCW 접선
+                Vector3 outward = transform.position - _orbitCenter.position;
+                outward.y = 0f;
+                targetDir = Vector3.Cross(outward.normalized, Vector3.up);
+            }
             else if (ChaseTarget != null)
                 targetDir = ChaseTarget.position - transform.position;
             else
@@ -138,9 +143,6 @@ public class BeeEnemy : EnemyBase
 
     private void OrbitAround()
     {
-        // Bee King이 사망하면 플레이어 추적으로 전환
-        if (_orbitCenter == null) { _chaseTarget = null; return; }
-
         _orbitAngle += MoveSpeed / _orbitRadius * Mathf.Rad2Deg * Time.deltaTime;
 
         float rad = _orbitAngle * Mathf.Deg2Rad;
@@ -158,7 +160,13 @@ public class BeeEnemy : EnemyBase
         Vector3 moveDir = dir.normalized;
         if (Physics.Raycast(transform.position, moveDir, _wallCheckDistance, _wallLayerMask))
         {
-            Rb.linearVelocity = Vector3.zero;
+            Vector3 right = Vector3.Cross(Vector3.up, moveDir);
+            if (!Physics.Raycast(transform.position, right, _wallCheckDistance, _wallLayerMask))
+                Rb.linearVelocity = right * MoveSpeed;
+            else if (!Physics.Raycast(transform.position, -right, _wallCheckDistance, _wallLayerMask))
+                Rb.linearVelocity = -right * MoveSpeed;
+            else
+                Rb.linearVelocity = Vector3.zero;
             return;
         }
 
