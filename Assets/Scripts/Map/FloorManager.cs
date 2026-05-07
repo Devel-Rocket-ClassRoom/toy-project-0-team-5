@@ -20,6 +20,16 @@ public class FloorManager : MonoBehaviour
     {
         var generator = new MapGenerator(_totalRooms);
         var nodes = generator.Generate();
+        var nodeDict = new Dictionary<Vector2Int, RoomNode>();
+        foreach (var node in nodes) nodeDict[node.GridPosition] = node;
+
+        var directions = new (Vector2Int offset, DoorFlags flag)[]
+        {
+            (Vector2Int.up,    DoorFlags.North),
+            (Vector2Int.down,  DoorFlags.South),
+            (Vector2Int.right, DoorFlags.East),
+            (Vector2Int.left,  DoorFlags.West),
+        };
 
         foreach (var node in nodes)
         {
@@ -32,7 +42,14 @@ public class FloorManager : MonoBehaviour
             var controller = instance.GetComponent<RoomController>();
             if (controller == null) continue;
 
-            controller.Init(node.GridPosition, node.DoorFlags, this);
+            var neighborTypes = new Dictionary<DoorFlags, RoomType>();
+            foreach (var (offset, flag) in directions)
+            {
+                if (nodeDict.TryGetValue(node.GridPosition + offset, out var neighbor))
+                    neighborTypes[flag] = neighbor.RoomType;
+            }
+
+            controller.Init(node.GridPosition, node.DoorFlags, this, neighborTypes);
             _rooms[node.GridPosition] = controller;
 
             if (node.RoomType == RoomType.Start)
