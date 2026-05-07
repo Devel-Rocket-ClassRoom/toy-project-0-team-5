@@ -1,22 +1,36 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _maxHp = 6;
+    [SerializeField] private float _invincibilityDuration = 2f;
+    [SerializeField] private float _blinkInterval = 0.1f;
+
     private int _currentHp;
     private bool _isProtected = false;
+    private float _invincibilityTimer;
     private PlayerAnimator playerAnimator;
+    private Renderer[] _renderers;
 
     public int MaxHp => _maxHp;
     public int CurrentHp => _currentHp;
 
+    private void Awake()
+    {
+        _renderers = GetComponentsInChildren<Renderer>();
+    }
 
     private void Start()
     {
         playerAnimator = GetComponent<PlayerAnimator>();
-
         SetMaxHp(_maxHp, true);
+    }
+
+    private void Update()
+    {
+        if (_invincibilityTimer > 0f)
+            _invincibilityTimer -= Time.deltaTime;
     }
 
     public void SetMaxHp(int newMax, bool healFull = false)
@@ -45,6 +59,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
+        if (_invincibilityTimer > 0f) return;
+
         if (_isProtected)
         {
             _isProtected = false;
@@ -57,7 +73,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             {
                 _currentHp = 0;
                 GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
-
                 playerAnimator.PlayDie();
                 Die();
                 return;
@@ -66,7 +81,30 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             playerAnimator.PlayDamage();
             GameEvents.OnPlayerHpChanged?.Invoke(_currentHp);
         }
+
+        _invincibilityTimer = _invincibilityDuration;
+        StartCoroutine(BlinkCoroutine());
         GameEvents.OnPlayerHit?.Invoke();
+    }
+
+    private IEnumerator BlinkCoroutine()
+    {
+        float elapsed = 0f;
+        while (elapsed < _invincibilityDuration)
+        {
+            SetRenderersVisible(false);
+            yield return new WaitForSeconds(_blinkInterval);
+            SetRenderersVisible(true);
+            yield return new WaitForSeconds(_blinkInterval);
+            elapsed += _blinkInterval * 2f;
+        }
+        SetRenderersVisible(true);
+    }
+
+    private void SetRenderersVisible(bool visible)
+    {
+        foreach (var r in _renderers)
+            if (r != null) r.enabled = visible;
     }
 
     public bool OnHeal(int amount)
