@@ -13,6 +13,9 @@ public class RoomController : MonoBehaviour
     [SerializeField] private DoorController _doorEast;
     [SerializeField] private DoorController _doorWest;
 
+    [SerializeField] private EnemyBase _boss;
+    public EnemyBase Boss => _boss;
+
     private List<GameObject> _enemies = new();
     private bool _isActive;
 
