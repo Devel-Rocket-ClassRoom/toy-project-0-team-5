@@ -9,7 +9,7 @@ public class DoorController : MonoBehaviour
     // 잠금 시 플레이어를 막는 벽 콜라이더 (non-trigger)
     [SerializeField] private GameObject _wallCollider;
     // 개방 시 플레이어 통과를 감지하는 트리거 콜라이더 (trigger)
-    [SerializeField] private Collider _triggerCollider;
+    [SerializeField] private GameObject _triggerCollider;
 
     private FloorManager _floorManager;
 
@@ -27,7 +27,7 @@ public class DoorController : MonoBehaviour
     public void SetLocked(bool locked)
     {
         if (_wallCollider != null) _wallCollider.SetActive(locked);
-        if (_triggerCollider != null) _triggerCollider.enabled = !locked;
+        if (_triggerCollider != null) _triggerCollider.SetActive(!locked);
     }
 
     public void OnPlayerEnter(Collider other)

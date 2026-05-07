@@ -16,11 +16,22 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("부딪힘");
+        if (!enabled)
+            return;
 
+        Debug.Log($"ItemPickup OnTriggerEnter 발생: {gameObject.name}, enabled: {enabled}");
+
+        if (!other.CompareTag("Player"))
+            return;
+
+        GetItem(other.gameObject);
+    }
+
+    public void GetItem(GameObject player)
+    {
         if (itemType == ItemType.Heart)
         {
-            PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
+            PlayerHealth playerHealth = player.GetComponentInParent<PlayerHealth>();
             if (playerHealth == null)
                 return;
 
@@ -33,7 +44,7 @@ public class ItemPickup : MonoBehaviour
             return;
 
         }
-        PlayerConsumableItem playerItem = other.GetComponentInParent<PlayerConsumableItem>();
+        PlayerConsumableItem playerItem = player.GetComponentInParent<PlayerConsumableItem>();
 
         if (playerItem == null)
             return;
@@ -42,4 +53,6 @@ public class ItemPickup : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+
 }

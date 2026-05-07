@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Runtime.InteropServices;
 
 public class PlayerConsumableItem : MonoBehaviour
 {
@@ -53,6 +54,17 @@ public class PlayerConsumableItem : MonoBehaviour
 
         keyCount -= amount;
 
+        OnItemChanged?.Invoke();
+
+        return true;
+    }
+
+    public bool UseCoin(int amount)
+    {
+        if (coinCount < amount)
+            return false;
+
+        coinCount -= amount;
         OnItemChanged?.Invoke();
 
         return true;
