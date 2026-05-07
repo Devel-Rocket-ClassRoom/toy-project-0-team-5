@@ -55,7 +55,7 @@ public class DefaultBullet : MonoBehaviour
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(Mathf.RoundToInt(_config.Damage));
-                if (other.TryGetComponent(out Rigidbody rb))
+                if (!other.TryGetComponent(out IKnockbackImmune _) && other.TryGetComponent(out Rigidbody rb))
                 {
                     rb.AddForce(_currentDirection.normalized * _config.Damage * _config.Speed, ForceMode.Impulse);
                 }

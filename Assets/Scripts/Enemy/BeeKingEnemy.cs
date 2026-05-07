@@ -3,12 +3,13 @@ using UnityEngine;
 
 // Bee King 보스 BT 우선순위:
 //   1. 사망      : 체력 <= 0 → Die()
-//   2. 피격경직  : 피격 직후 경직
-//   3. 패턴 실행 : 범위 내 + 쿨다운 완료 → 가중치 랜덤 패턴 선택
+//   2. 패턴 실행 : 범위 내 + 쿨다운 완료 → 가중치 랜덤 패턴 선택
 //      - 패턴 0  : Bee 다수 소환 → 소환된 Bee들은 Bee King 주위를 공전 (75% 확률)
 //      - 패턴 1  : 공전 중인 Bee 전부 플레이어 방향으로 전환 (25% 확률, 최소 4마리 이상일 때만)
-//   4. 부유      : 느리게 랜덤 방향으로 이동 (벽 회피)
-public class BeeKingEnemy : EnemyBase
+//   3. 부유      : 느리게 랜덤 방향으로 이동 (벽 회피)
+//
+// 피격 시 패턴 중단 없음. TakeDamage에서 hit 애니메이션만 재생.
+public class BeeKingEnemy : EnemyBase, IKnockbackImmune
 {
     [Header("Pattern Settings")]
     [SerializeField] private float patternCooldown = 3f;
@@ -33,7 +34,6 @@ public class BeeKingEnemy : EnemyBase
 
     private readonly List<BeeEnemy> _summonedBees = new();
     private float patternCooldownTimer;
-    private float hitStunTimer;
     private bool isExecutingPattern;
     private int currentPattern;
     private bool _dieAnimTriggered;
@@ -46,6 +46,14 @@ public class BeeKingEnemy : EnemyBase
         base.Awake();
         _animator = GetComponent<Animator>();
         Rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        hitStunImmune = true;
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        if (!IsDead && _animator != null)
+            _animator.SetTrigger(HitId);
     }
 
     protected override void Update()
@@ -69,9 +77,6 @@ public class BeeKingEnemy : EnemyBase
             .AddChild(new SequenceNode()
                 .AddChild(new ConditionNode(() => IsDead))
                 .AddChild(new ActionNode(DeadAction)))
-            .AddChild(new SequenceNode()
-                .AddChild(new ConditionNode(() => isHit))
-                .AddChild(new ActionNode(HitStunAction)))
             .AddChild(new SequenceNode()
                 .AddChild(new ConditionNode(ShouldExecutePattern))
                 .AddChild(new ActionNode(PatternAction)))
@@ -205,18 +210,4 @@ public class BeeKingEnemy : EnemyBase
         return NodeState.Running;
     }
 
-    private NodeState HitStunAction()
-    {
-        if (hitStunTimer <= 0f)
-        {
-            hitStunTimer = HitStunDuration;
-            if (_animator != null) _animator.SetTrigger(HitId);
-            Hit();
-        }
-        hitStunTimer -= Time.deltaTime;
-        if (hitStunTimer > 0f) return NodeState.Running;
-        isHit = false;
-        hitStunTimer = 0f;
-        return NodeState.Success;
-    }
 }

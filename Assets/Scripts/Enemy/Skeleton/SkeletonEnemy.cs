@@ -6,8 +6,9 @@ using UnityEngine;
 //   1. 사망     : 체력 <= 0 → Die()
 //   2. 피격경직 : 피격 직후 경직
 //   3. 공격     : 공격 범위 내 + 쿨다운 완료 → 정지 후 OverlapSphere 판정
-//   4. 추적     : 탐지 범위 내 → 플레이어 방향으로 이동 + 시선 추적
-//   5. 순찰     : 랜덤 방향으로 이동
+//   4. 대기     : 공격 범위 내 + 쿨다운 중 → 정지 후 플레이어 방향 주시
+//   5. 추적     : 탐지 범위 내 → 플레이어 방향으로 이동 + 시선 추적
+//   6. 순찰     : 랜덤 방향으로 이동
 public class SkeletonEnemy : EnemyBase
 {
     [Header("Rotation")]
@@ -16,6 +17,9 @@ public class SkeletonEnemy : EnemyBase
     [Header("Wall Avoidance")]
     [SerializeField] private LayerMask _wallLayerMask;
     [SerializeField] private float _wallCheckDistance = 1.5f;
+
+    [Header("Attack Stop Distance")]
+    [SerializeField] private float _chaseStopDistance = 1.5f;
 
     private Vector3 _patrolDir;
     private float _patrolDirTimer;
@@ -50,9 +54,18 @@ public class SkeletonEnemy : EnemyBase
                 .AddChild(new ConditionNode(ShouldAttack))
                 .AddChild(new ActionNode(AttackAction)))
             .AddChild(new SequenceNode()
+                .AddChild(new ConditionNode(InAttackRange))
+                .AddChild(new ActionNode(StandAndFaceAction)))
+            .AddChild(new SequenceNode()
                 .AddChild(new ConditionNode(InSearchRange))
                 .AddChild(new ActionNode(() => { Attacker?.TickCooldown(); ChaseAndFace(); SetRunning(); return NodeState.Running; })))
             .AddChild(new ActionNode(() => { WallAwarePatrol(); SetWalking(); return NodeState.Running; }));
+    }
+
+    private bool InAttackRange()
+    {
+        if (PlayerTransform == null) return false;
+        return Vector3.Distance(transform.position, PlayerTransform.position) <= _chaseStopDistance;
     }
 
     private bool InSearchRange()
@@ -66,6 +79,21 @@ public class SkeletonEnemy : EnemyBase
         if (isAttacking) return true;
         if (Attacker == null || PlayerTransform == null || !Attacker.IsReady) return false;
         return Vector3.Distance(transform.position, PlayerTransform.position) <= Attacker.AttackRange;
+    }
+
+    // 공격 범위 내에 있지만 쿨다운 중 → 정지 + 플레이어 주시
+    private NodeState StandAndFaceAction()
+    {
+        Attacker?.TickCooldown();
+        Rb.linearVelocity = Vector3.zero;
+        if (PlayerTransform != null)
+        {
+            Vector3 dir = PlayerTransform.position - transform.position;
+            dir.y = 0f;
+            FaceDirection(dir.normalized);
+        }
+        SetStopped();
+        return NodeState.Running;
     }
 
     private void WallAwarePatrol()
