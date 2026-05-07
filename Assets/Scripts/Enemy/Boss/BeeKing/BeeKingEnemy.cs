@@ -28,6 +28,10 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
     [Header("Rotation")]
     [SerializeField] private float _rotationSpeed = 8f;
 
+    [Header("Pattern Sounds")]
+    [SerializeField] private AudioClip _summonSound;
+    [SerializeField] private AudioClip _releaseSound;
+
     private Animator _animator;
     private static readonly int HitId    = Animator.StringToHash("hit");
     private static readonly int DieId    = Animator.StringToHash("die");
@@ -122,6 +126,8 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
         int canSummon = Mathf.Min(_summonCount, _maxSummonedBees - _summonedBees.Count);
         if (canSummon <= 0) return FinishPattern();
 
+        PlaySound(_summonSound);
+
         for (int i = 0; i < canSummon; i++)
         {
             float angle = (360f / _summonCount) * i * Mathf.Deg2Rad;
@@ -145,6 +151,7 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
         if (PlayerTransform == null) return FinishPattern();
 
         if (_animator != null) _animator.SetTrigger(AttackId);
+        PlaySound(_releaseSound);
 
         foreach (var bee in _summonedBees)
         {
