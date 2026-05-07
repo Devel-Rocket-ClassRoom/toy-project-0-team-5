@@ -1,31 +1,60 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class EnemyBullet : BulletBase
 {
-    [SerializeField] private int damage = 1;
-    [SerializeField] private float lifeTime = 3f;
+    private LayerMask _targetLayers;
+    private Rigidbody _rb;
+    private BulletConfig _config;
+    private Vector3 _currentDirection;
 
-    private Rigidbody rb;
+    private HashSet<Collider> _hitted = new();
+    private float _lifeTime;
 
-    private void Awake()
+    public override void Init(LayerMask targetLayer, Vector3 direction, BulletConfig config)
     {
-        rb = GetComponent<Rigidbody>();
-        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+        _targetLayers = targetLayer;
+        _currentDirection = direction;
+        _config = config;
+        _lifeTime = config.Range;
+
+        _hitted.Clear();
+
+        _rb = GetComponent<Rigidbody>();
+        _rb.linearVelocity = _currentDirection * _config.Speed;
     }
 
-    public void Fire(Vector3 velocity)
+    private void Update()
     {
-        rb.linearVelocity = velocity;
-        Destroy(gameObject, lifeTime);
+        _lifeTime -= Time.deltaTime;
+        if (_lifeTime <= 0f)
+            _rb.useGravity = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) return;
+        if (IsTarget(other.gameObject.layer))
+        {
+            if (_hitted.Contains(other)) return;
 
-        if (other.TryGetComponent<PlayerHealth>(out var health))
-            health.TakeDamage(damage);
+            if (other.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(Mathf.RoundToInt(_config.Damage));
+                if (!other.TryGetComponent(out IKnockbackImmune _) && other.TryGetComponent(out Rigidbody rb))
+                    rb.AddForce(_currentDirection.normalized * _config.Damage * _config.Speed, ForceMode.Impulse);
+            }
 
-        Destroy(gameObject);
+            if (_config.Flags.HasFlag(BulletFlags.PIERCING))
+                _hitted.Add(other);
+            else
+                Destroy(gameObject);
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        {
+            Destroy(gameObject);
+        }
     }
+
+    bool IsTarget(int layer) => (_targetLayers.value & (1 << layer)) != 0;
 }
