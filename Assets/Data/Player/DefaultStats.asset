@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSO
   _damage: 3.5
-  _delay: 30
+  _delay: 50
   _range: 30
   _shotSpeed: 10
   _speed: 10

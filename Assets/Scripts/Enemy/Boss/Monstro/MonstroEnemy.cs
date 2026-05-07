@@ -2,13 +2,14 @@ using UnityEngine;
 
 // Monstro 보스 BT 우선순위:
 //   1. 사망     : 체력 <= 0 → Die()
-//   2. 피격경직 : 피격 직후 경직
-//   3. 패턴 실행: 범위 내 + 쿨다운 완료 → 매번 랜덤 패턴 선택
+//   2. 패턴 실행: 범위 내 + 쿨다운 완료 → 매번 랜덤 패턴 선택
 //      - 패턴 0: 플레이어 방향 분산 발사
 //      - 패턴 1: 작은 점프로 플레이어에게 접근
 //      - 패턴 2: 플레이어 위치로 큰 점프 강하 → 착지 시 방사형 발사
-//   4. 대기     : 쿨다운 카운트다운 후 다음 패턴 대기
-public class MonstroEnemy : EnemyBase
+//   3. 대기     : 쿨다운 카운트다운 후 다음 패턴 대기
+//
+// 피격 시 패턴 중단 없음. TakeDamage에서 hit 애니메이션만 재생.
+public class MonstroEnemy : EnemyBase, IKnockbackImmune
 {
     [Header("Animation")]
     [SerializeField] private float jumpAnimSpeed = 0.3f;
@@ -44,7 +45,6 @@ public class MonstroEnemy : EnemyBase
 
     private bool _dieAnimTriggered;
     private float patternCooldownTimer;
-    private float hitStunTimer;
     private bool isExecutingPattern;
     private int currentPattern;
     private bool isJumping;
@@ -53,19 +53,26 @@ public class MonstroEnemy : EnemyBase
     private Vector3 bigJumpTargetPos;
     private bool bigJumpLanded;
 
-    // 점프 직후 착지 오판정 방지용 딜레이
     private const float JumpAirborneDelay = 0.2f;
 
     protected override void Awake()
     {
         base.Awake();
         _animator = GetComponent<Animator>();
+        hitStunImmune = true;
     }
 
     protected override void Update()
     {
         base.Update();
         FacePlayer();
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        if (!IsDead && _animator != null)
+            _animator.SetTrigger(HitId);
     }
 
     private void FacePlayer()
@@ -83,9 +90,6 @@ public class MonstroEnemy : EnemyBase
             .AddChild(new SequenceNode()
                 .AddChild(new ConditionNode(() => IsDead))
                 .AddChild(new ActionNode(DeadAction)))
-            .AddChild(new SequenceNode()
-                .AddChild(new ConditionNode(() => isHit))
-                .AddChild(new ActionNode(HitStunAction)))
             .AddChild(new SequenceNode()
                 .AddChild(new ConditionNode(ShouldExecutePattern))
                 .AddChild(new ActionNode(PatternAction)))
@@ -122,7 +126,6 @@ public class MonstroEnemy : EnemyBase
         };
     }
 
-    // 패턴 0: 플레이어 방향으로 분산 발사 (MonstroSpreadAttack 컴포넌트 사용)
     private NodeState SpreadShotPattern()
     {
         Rb.linearVelocity = Vector3.zero;
@@ -131,7 +134,6 @@ public class MonstroEnemy : EnemyBase
         return FinishPattern();
     }
 
-    // 패턴 1: 작은 점프로 플레이어에게 접근 → 착지 시 완료
     private NodeState SmallJumpPattern()
     {
         if (!isJumping)
@@ -161,7 +163,6 @@ public class MonstroEnemy : EnemyBase
         return FinishPattern();
     }
 
-    // 패턴 2: 플레이어 위치로 큰 점프 → 착지 시 방사형 발사
     private NodeState BigJumpPattern()
     {
         if (!isJumping)
@@ -173,7 +174,6 @@ public class MonstroEnemy : EnemyBase
             Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             SetJumpAnim(true);
 
-            // 체공 시간으로 역산한 수평 속도 → 목표 지점에 정확히 착지
             float gravity = -Physics.gravity.y;
             float vUp = bigJumpUpForce / Rb.mass;
             float timeOfFlight = 2f * vUp / gravity;
@@ -212,8 +212,6 @@ public class MonstroEnemy : EnemyBase
         }
     }
 
-    // isTrigger 상태에서는 바닥 충돌이 없으므로 Raycast 대신 Y 위치로 착지 판정
-    // 점프 시작 시 저장한 floorY로 돌아오면 착지로 간주
     private bool IsGrounded()
     {
         if (jumpAirborneTimer > 0f)
@@ -232,7 +230,6 @@ public class MonstroEnemy : EnemyBase
         Rb.MovePosition(new Vector3(transform.position.x, floorY, transform.position.z));
     }
 
-    // 예상 착지 지점이 벽과 겹치면 안전한 방향으로 보정해 반환 (SmallJump용)
     private Vector3 GetSafeJumpDirection(Vector3 direction, float horizontalForce, float upForce)
     {
         float gravity = -Physics.gravity.y;
@@ -249,10 +246,8 @@ public class MonstroEnemy : EnemyBase
         return safeDir.magnitude > 0.01f ? safeDir.normalized : direction;
     }
 
-    // 착지 예정 위치가 벽과 겹치면 벽 바깥으로 밀어낸 안전한 좌표를 반환
     private Vector3 GetSafeLandingPosition(Vector3 targetPos)
     {
-        // Y를 반경만큼 올려 바닥 콜라이더가 감지되지 않도록 함 (바닥과 벽이 같은 레이어인 경우 대응)
         Vector3 checkPos = new Vector3(targetPos.x, transform.position.y + _landingCheckRadius, targetPos.z);
 
         for (int i = 0; i < 8; i++)
@@ -299,11 +294,6 @@ public class MonstroEnemy : EnemyBase
         _animator.speed = jumping ? jumpAnimSpeed : 1f;
     }
 
-    public override void Hit()
-    {
-        Rb.linearVelocity = Vector3.zero;
-    }
-
     private NodeState DeadAction()
     {
         if (!_dieAnimTriggered)
@@ -313,22 +303,5 @@ public class MonstroEnemy : EnemyBase
         }
         Die();
         return NodeState.Running;
-    }
-
-    private NodeState HitStunAction()
-    {
-        if (hitStunTimer <= 0f)
-        {
-            hitStunTimer = HitStunDuration;
-            if (_animator != null) _animator.SetTrigger(HitId);
-            Hit();
-        }
-
-        hitStunTimer -= Time.deltaTime;
-        if (hitStunTimer > 0f) return NodeState.Running;
-
-        isHit = false;
-        hitStunTimer = 0f;
-        return NodeState.Success;
     }
 }

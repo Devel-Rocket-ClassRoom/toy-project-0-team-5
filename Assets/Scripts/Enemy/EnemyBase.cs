@@ -22,6 +22,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     public float SearchRange => searchRange;
 
     protected bool isHit;
+    protected bool hitStunImmune;
     private bool isDying;
 
     private BehaviorNode behaviorTree;
@@ -94,7 +95,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     {
         if (IsDead || isDying) return;
         CurrentHp -= amount;
-        if (!IsDead)
+        if (!IsDead && !hitStunImmune)
             isHit = true;
     }
 }
