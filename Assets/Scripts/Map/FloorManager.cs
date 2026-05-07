@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FloorManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class FloorManager : MonoBehaviour
     private Dictionary<Vector2Int, RoomController> _rooms = new();
     private RoomController _currentRoom;
     public RoomController CurrentRoom => _currentRoom;
+
+    private EnemyBase _boss;
+    public EnemyBase Boss => _boss;
 
     private void Start()
     {
@@ -51,6 +55,9 @@ public class FloorManager : MonoBehaviour
 
             controller.Init(node.GridPosition, node.DoorFlags, this, neighborTypes);
             _rooms[node.GridPosition] = controller;
+
+            if (node.RoomType == RoomType.Boss)
+                _boss = controller.Boss;
 
             if (node.RoomType == RoomType.Start)
                 ActivateRoom(controller);
@@ -114,7 +121,21 @@ public class FloorManager : MonoBehaviour
 
     private RoomData GetRoomData(RoomType type)
     {
-        return _roomDataList.Find(d => d.RoomType == type)
-            ?? _roomDataList.Find(d => d.RoomType == RoomType.Normal);
+        var candidates = _roomDataList.Where(d => d.RoomType == type).ToList();
+        if (candidates.Count == 0)
+            candidates = _roomDataList.Where(d => d.RoomType == RoomType.Normal).ToList();
+        if (candidates.Count == 0) return null;
+
+        int totalWeight = candidates.Sum(d => d.Weight);
+        if (totalWeight <= 0) return candidates[0];
+
+        int roll = Random.Range(0, totalWeight);
+        int cumulative = 0;
+        foreach (var data in candidates)
+        {
+            cumulative += data.Weight;
+            if (roll < cumulative) return data;
+        }
+        return candidates[^1];
     }
 }
