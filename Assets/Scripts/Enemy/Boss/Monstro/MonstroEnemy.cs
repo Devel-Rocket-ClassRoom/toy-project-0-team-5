@@ -33,6 +33,11 @@ public class MonstroEnemy : EnemyBase, IKnockbackImmune
     [Header("Rotation")]
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float radialDamage = 1f;
+
+    [Header("Pattern Sounds")]
+    [SerializeField] private AudioClip _spreadShotSound;
+    [SerializeField] private AudioClip _smallJumpSound;
+    [SerializeField] private AudioClip _bigJumpSound;
     [SerializeField] private float radialBulletSpeed = 6f;
     [SerializeField] private float radialBulletRange = 4f;
     [SerializeField] private int radialBulletCount = 8;
@@ -130,6 +135,7 @@ public class MonstroEnemy : EnemyBase, IKnockbackImmune
     {
         Rb.linearVelocity = Vector3.zero;
         if (_animator != null) _animator.SetTrigger(SpreadAttackId);
+        PlaySound(_spreadShotSound);
         Attack();
         return FinishPattern();
     }
@@ -144,6 +150,7 @@ public class MonstroEnemy : EnemyBase, IKnockbackImmune
             Rb.linearVelocity = Vector3.zero;
             Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             SetJumpAnim(true);
+            PlaySound(_smallJumpSound);
 
             if (PlayerTransform != null)
             {
@@ -173,6 +180,7 @@ public class MonstroEnemy : EnemyBase, IKnockbackImmune
             Rb.linearVelocity = Vector3.zero;
             Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             SetJumpAnim(true);
+            PlaySound(_bigJumpSound);
 
             float gravity = -Physics.gravity.y;
             float vUp = bigJumpUpForce / Rb.mass;
