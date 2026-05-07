@@ -5,6 +5,7 @@ using UnityEngine;
 public class DefaultBullet : BulletBase
 {
     [SerializeField] private AudioClip _hitSound;
+    [SerializeField] private ParticleSystem _hitEffect;
 
     private LayerMask _targetLayers;
     private Rigidbody _rb;
@@ -71,13 +72,30 @@ public class DefaultBullet : BulletBase
             {
                 if (_hitSound != null)
                     AudioSource.PlayClipAtPoint(_hitSound, Camera.main.transform.position);
+
+                SpawnEffect();
                 Destroy(gameObject);
             }
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
+            SpawnEffect();
             Destroy(gameObject);
         }
+    }
+
+    private void SpawnEffect()
+    {
+        if (_hitEffect == null) return;
+
+        ParticleSystem effect = Instantiate(
+            _hitEffect,
+            transform.position,
+            Quaternion.identity
+            );
+
+        effect.Play();
+        Destroy(effect.gameObject, effect.main.duration);
     }
 
     bool IsTarget(int layer) => (_targetLayers.value & (1 << layer)) != 0;
