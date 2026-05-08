@@ -57,6 +57,7 @@ public class BeeKingEnemy : EnemyBase, IKnockbackImmune
     public override void TakeDamage(int amount)
     {
         base.TakeDamage(amount);
+        GameEvents.OnBossHpChanged?.Invoke(CurrentHp);
         if (!IsDead && _animator != null)
             _animator.SetTrigger(HitId);
     }

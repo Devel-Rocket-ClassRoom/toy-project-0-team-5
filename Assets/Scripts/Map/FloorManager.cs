@@ -8,6 +8,7 @@ public class FloorManager : MonoBehaviour
     [SerializeField] private float _roomSpacing = 20f;
     [SerializeField] private int _totalRooms = 10;
 
+
     private Dictionary<Vector2Int, RoomController> _rooms = new();
     private RoomController _currentRoom;
     public RoomController CurrentRoom => _currentRoom;
@@ -53,7 +54,7 @@ public class FloorManager : MonoBehaviour
                     neighborTypes[flag] = neighbor.RoomType;
             }
 
-            controller.Init(node.GridPosition, node.DoorFlags, this, neighborTypes);
+            controller.Init(node.GridPosition, node.RoomType, node.DoorFlags, this, neighborTypes);
             _rooms[node.GridPosition] = controller;
 
             if (node.RoomType == RoomType.Boss)
@@ -87,6 +88,12 @@ public class FloorManager : MonoBehaviour
         room.gameObject.SetActive(true);
         _currentRoom = room;
         room.OnRoomEnter();
+        switch (room.RoomType)
+        {
+            case RoomType.Normal:  GameEvents.OnNormalRoomEnter?.Invoke(); break;
+            case RoomType.Shop:    GameEvents.OnShopRoomEnter?.Invoke();   break;
+            case RoomType.Boss:    GameEvents.OnBossRoomEnter?.Invoke(_boss); break;
+        }
     }
 
     public RoomController GetRoom(Vector2Int gridPosition)

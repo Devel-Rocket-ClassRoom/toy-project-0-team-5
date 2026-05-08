@@ -20,4 +20,8 @@ public static class GameEvents
     public static Action OnTransitionEnd;
     public static Action OnRoomClear;
     public static Action<GameObject> OnEnemyDead;
+    public static Action OnNormalRoomEnter;
+    public static Action OnShopRoomEnter;
+    public static Action<EnemyBase> OnBossRoomEnter;
+    public static Action<int> OnBossHpChanged;
 }

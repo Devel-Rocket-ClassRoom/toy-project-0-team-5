@@ -12,6 +12,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] private AudioClip _hitSound;
     [SerializeField] private AudioClip _deathSound;
 
+    public int MaxHp { get; private set; }
     public int CurrentHp { get; private set; }
     public bool IsDead => CurrentHp <= 0;
     public Transform PlayerTransform { get; private set; }
@@ -38,6 +39,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         Rb = GetComponent<Rigidbody>();
         Attacker = GetComponent<EnemyAttackBase>();
         _audioSource = GetComponent<AudioSource>();
+        MaxHp = maxHp;
         CurrentHp = maxHp;
         behaviorTree = BuildTree();
     }
