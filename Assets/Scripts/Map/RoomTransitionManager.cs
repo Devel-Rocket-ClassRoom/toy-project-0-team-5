@@ -48,7 +48,6 @@ public class RoomTransitionManager : MonoBehaviour
         }
 
         _camera.transform.position = targetCameraPos;
-        Debug.Log($"Camera slide completed: {_camera.transform.position}");
 
         if (_playerCollider != null) _playerCollider.enabled = false;
 

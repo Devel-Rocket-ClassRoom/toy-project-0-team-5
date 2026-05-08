@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class UIManager : MonoBehaviour
 
         pauseWindowUI.Hide();
         gameoverWindowUI.Hide();
-        bossUI.Hide();
 
         gameoverWindowUI.Init(this);
     }
@@ -82,8 +82,14 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void BossTime(EnemyBase boss)
+    public void RestartScene()
     {
-        bossUI.Show(boss);
+        Debug.Log("리스타트");
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().name
+        );
     }
+
 }

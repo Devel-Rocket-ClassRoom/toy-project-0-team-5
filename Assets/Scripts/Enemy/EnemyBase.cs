@@ -9,12 +9,14 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected float searchRange = 10f;
     [SerializeField] protected float patrolDirectionInterval = 2f;
     [SerializeField] protected float patrolSpeedMultiplier = 0.5f;
+    [SerializeField] protected string bossName;
     [SerializeField] private AudioClip _hitSound;
     [SerializeField] private AudioClip _deathSound;
 
+
     public int MaxHp { get; private set; }
     public int CurrentHp { get; private set; }
-    public int MaxHp => maxHp;
+    public string BossName { get; private set; }
 
     public bool IsDead => CurrentHp <= 0;
     public Transform PlayerTransform { get; private set; }
@@ -43,9 +45,10 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         _audioSource = GetComponent<AudioSource>();
         MaxHp = maxHp;
         CurrentHp = maxHp;
+        BossName = bossName;
         behaviorTree = BuildTree();
     }
-
+        
     protected virtual void Start()
     {
         var player = GameObject.FindWithTag("Player");

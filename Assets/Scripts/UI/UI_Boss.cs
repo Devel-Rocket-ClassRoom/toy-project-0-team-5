@@ -1,34 +1,38 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Boss : MonoBehaviour
 {
     [SerializeField] private Slider bossHpSlider;
+    [SerializeField] private TMP_Text bossName;
 
-    private bool isBossTime;
-
-    private EnemyBase boss;
-    public void Show(EnemyBase bossEnemy)
+    private EnemyBase enemyBase;
+    private void Start()
     {
-        boss = bossEnemy;
-        gameObject.SetActive(true);
-        bossHpSlider.maxValue = boss.MaxHp;
-        isBossTime = true;
-    }
+        GameEvents.OnBossRoomEnter += HandleBossRoomEnter;
+        GameEvents.OnBossHpChanged += HandleBossHpChanged;
 
-    public void Hide()
-    {
         gameObject.SetActive(false);
-        isBossTime = false;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (isBossTime)
-        {
-            bossHpSlider.maxValue = boss.CurrentHp;
+        GameEvents.OnBossRoomEnter -= HandleBossRoomEnter;
+        GameEvents.OnBossHpChanged -= HandleBossHpChanged;
+    }
 
-        }
+    private void HandleBossRoomEnter(EnemyBase boss)
+    {
+        bossHpSlider.maxValue = boss.MaxHp;
+        bossHpSlider.value = boss.CurrentHp;
+        bossName.text = boss.BossName;
+        gameObject.SetActive(true);
+    }
+
+    private void HandleBossHpChanged(int currentHp)
+    {
+        bossHpSlider.value = currentHp;
     }
 
 }
