@@ -1,5 +1,6 @@
 using ActiveItem;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// Player가 환경과의 상호작용을 위한 컴포넌트
@@ -21,6 +22,10 @@ public class PlayerActions : MonoBehaviour
 
     private BulletFlags _flags;
     private float _attackTimer;
+
+    public ActiveItemBase EquippedItem => _equippedItem;
+
+    public event Action OnActiveItemChanged;
 
     private void Awake()
     {

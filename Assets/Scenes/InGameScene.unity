@@ -202,26 +202,41 @@ MonoBehaviour:
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: f996cbef8ddd4944da96ea7fe21a51e9, type: 3}
-  - Id: 0
+  - Id: 1
     RoomType: 2
     DoorFlags: 0
     Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: 68bf8e052341cc042943863e52f8cfc2, type: 3}
-  - Id: 0
+    Prefab: {fileID: 4251631686836462034, guid: 85fb545389e69b94e97a8dcc67207ebf, type: 3}
+  - Id: 2
     RoomType: 4
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: a06607d82434c854597335e9d4e30af6, type: 3}
-  - Id: 0
+  - Id: 3
     RoomType: 3
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: 9c7cc8c427e69b946a12cb91705dffb5, type: 3}
-  - Id: 0
+  - Id: 4
     RoomType: 1
     DoorFlags: 0
-    Weight: 0
+    Weight: 3
     Prefab: {fileID: 4251631686836462034, guid: 6fae77a3217e19e47ae630bd41818a75, type: 3}
+  - Id: 5
+    RoomType: 1
+    DoorFlags: 0
+    Weight: 3
+    Prefab: {fileID: 4251631686836462034, guid: e8b1b7add059c024fb4793866fa39b82, type: 3}
+  - Id: 6
+    RoomType: 1
+    DoorFlags: 0
+    Weight: 3
+    Prefab: {fileID: 4251631686836462034, guid: b22f20e4b054622499a9a19095f39827, type: 3}
+  - Id: 7
+    RoomType: 2
+    DoorFlags: 0
+    Weight: 0
+    Prefab: {fileID: 4251631686836462034, guid: 1e4149fc9600cba4786737099b766192, type: 3}
   _roomSpacing: 45
   _totalRooms: 8
 --- !u!114 &285147180
@@ -678,6 +693,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4493810461281535060, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5391845941961144156, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -698,6 +717,14 @@ PrefabInstance:
       propertyPath: playerStats
       value: 
       objectReference: {fileID: 1130781963}
+    - target: {fileID: 5545158087169624303, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
+      propertyPath: activeIcon
+      value: 
+      objectReference: {fileID: 1686232212}
+    - target: {fileID: 5545158087169624303, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
+      propertyPath: playerActions
+      value: 
+      objectReference: {fileID: 4382596684506031910}
     - target: {fileID: 5545158087169624303, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
       propertyPath: playerConsumableItem
       value: 
@@ -839,6 +866,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
+--- !u!114 &1686232212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4294751084077221754, guid: ab78a55dd9fc6f04fa957f3b4201b68c, type: 3}
+  m_PrefabInstance: {fileID: 1686232211}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &4382596684506031909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -896,6 +934,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+--- !u!114 &4382596684506031910 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5430418532029883239, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+  m_PrefabInstance: {fileID: 4382596684506031909}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130781959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c118ae325a28aff4898745979bd94dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerActions
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
