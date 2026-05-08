@@ -267,28 +267,43 @@ MonoBehaviour:
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: f996cbef8ddd4944da96ea7fe21a51e9, type: 3}
-  - Id: 0
+  - Id: 1
     RoomType: 1
     DoorFlags: 0
-    Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: 41f9c32d47a569f4d80ca39d93eb7dca, type: 3}
-  - Id: 0
+    Weight: 3
+    Prefab: {fileID: 4251631686836462034, guid: 6fae77a3217e19e47ae630bd41818a75, type: 3}
+  - Id: 2
     RoomType: 2
     DoorFlags: 0
     Weight: 0
-    Prefab: {fileID: 4251631686836462034, guid: 68bf8e052341cc042943863e52f8cfc2, type: 3}
-  - Id: 0
+    Prefab: {fileID: 4251631686836462034, guid: 85fb545389e69b94e97a8dcc67207ebf, type: 3}
+  - Id: 3
     RoomType: 4
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: a06607d82434c854597335e9d4e30af6, type: 3}
-  - Id: 0
+  - Id: 4
     RoomType: 3
     DoorFlags: 0
     Weight: 0
     Prefab: {fileID: 4251631686836462034, guid: 9c7cc8c427e69b946a12cb91705dffb5, type: 3}
+  - Id: 5
+    RoomType: 2
+    DoorFlags: 0
+    Weight: 0
+    Prefab: {fileID: 4251631686836462034, guid: 1e4149fc9600cba4786737099b766192, type: 3}
+  - Id: 6
+    RoomType: 1
+    DoorFlags: 0
+    Weight: 4
+    Prefab: {fileID: 4251631686836462034, guid: e8b1b7add059c024fb4793866fa39b82, type: 3}
+  - Id: 7
+    RoomType: 1
+    DoorFlags: 0
+    Weight: 3
+    Prefab: {fileID: 4251631686836462034, guid: b22f20e4b054622499a9a19095f39827, type: 3}
   _roomSpacing: 45
-  _totalRooms: 8
+  _totalRooms: 14
 --- !u!114 &285147180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomTransitionManager
   _camera: {fileID: 1177689306}
-  _player: {fileID: 0}
+  _player: {fileID: 1633083470}
   _slideDuration: 0.3
   _triggerCooldown: 0.1
 --- !u!1 &909366914
@@ -1088,6 +1103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7493309859186154722, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
+      propertyPath: _maxHp
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8107026007046180937, guid: 6aac694017bc7464cb375b298b67abc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.23
@@ -1170,7 +1189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019739757279384691, guid: 30305ca88b7508d4b9f4878585ae39a0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9010449586846580111, guid: 30305ca88b7508d4b9f4878585ae39a0, type: 3}
       propertyPath: m_LocalPosition.x

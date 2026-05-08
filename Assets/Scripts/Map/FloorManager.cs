@@ -79,12 +79,12 @@ public class FloorManager : MonoBehaviour
         if (spawnPoint != null)
             GameEvents.OnRoomTransition?.Invoke(spawnPoint, nextRoom.transform);
 
-        // currentRoom.gameObject.SetActive(false);
+        currentRoom.gameObject.SetActive(false);
     }
 
     private void ActivateRoom(RoomController room)
     {
-        // room.gameObject.SetActive(true);
+        room.gameObject.SetActive(true);
         _currentRoom = room;
         room.OnRoomEnter();
     }

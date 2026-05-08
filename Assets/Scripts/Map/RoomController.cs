@@ -57,7 +57,7 @@ public class RoomController : MonoBehaviour
             _doorWest.gameObject.SetActive(true);
         }
 
-        // gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void OnRoomEnter()
