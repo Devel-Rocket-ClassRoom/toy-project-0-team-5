@@ -6,6 +6,7 @@ using UnityEngine;
 public class RoomController : MonoBehaviour
 {
     public Vector2Int GridPosition;
+    public RoomType RoomType { get; private set; }
     public bool IsCleared;
 
     [SerializeField] private DoorController _doorNorth;
@@ -22,9 +23,10 @@ public class RoomController : MonoBehaviour
     private void OnEnable() => GameEvents.OnEnemyDead += HandleEnemyDead;
     private void OnDisable() => GameEvents.OnEnemyDead -= HandleEnemyDead;
 
-    public void Init(Vector2Int gridPosition, DoorFlags doorFlags, FloorManager floorManager, Dictionary<DoorFlags, RoomType> neighborTypes)
+    public void Init(Vector2Int gridPosition, RoomType roomType, DoorFlags doorFlags, FloorManager floorManager, Dictionary<DoorFlags, RoomType> neighborTypes)
     {
         GridPosition = gridPosition;
+        RoomType = roomType;
         IsCleared = false;
 
         _enemies = GetComponentsInChildren<EnemyBase>(includeInactive: true)
