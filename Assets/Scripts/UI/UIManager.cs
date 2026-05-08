@@ -57,9 +57,6 @@ public class UIManager : MonoBehaviour
         ShowGameOver();
     }
 
-    
-
-
     public void PauseGame()
     {
         isPaused = true;
@@ -85,8 +82,8 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void BossTime()
+    public void BossTime(EnemyBase boss)
     {
-        bossUI.Show();
+        bossUI.Show(boss);
     }
 }

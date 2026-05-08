@@ -13,6 +13,8 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] private AudioClip _deathSound;
 
     public int CurrentHp { get; private set; }
+    public int MaxHp => maxHp;
+
     public bool IsDead => CurrentHp <= 0;
     public Transform PlayerTransform { get; private set; }
     public Rigidbody Rb { get; private set; }

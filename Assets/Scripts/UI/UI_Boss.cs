@@ -7,17 +7,12 @@ public class UI_Boss : MonoBehaviour
 
     private bool isBossTime;
 
-    private void Update()
+    private EnemyBase boss;
+    public void Show(EnemyBase bossEnemy)
     {
-        if (isBossTime)
-        {
-
-        }
-    }
-
-    public void Show()
-    {
+        boss = bossEnemy;
         gameObject.SetActive(true);
+        bossHpSlider.maxValue = boss.MaxHp;
         isBossTime = true;
     }
 
@@ -25,6 +20,15 @@ public class UI_Boss : MonoBehaviour
     {
         gameObject.SetActive(false);
         isBossTime = false;
+    }
+
+    private void Update()
+    {
+        if (isBossTime)
+        {
+            bossHpSlider.maxValue = boss.CurrentHp;
+
+        }
     }
 
 }

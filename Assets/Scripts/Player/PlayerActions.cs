@@ -55,6 +55,7 @@ public class PlayerActions : MonoBehaviour
         var currentItem = _equippedItem;
         _equippedItem = item;
         Debug.Log($"장착 완료!: {_equippedItem.GetType().Name}");
+        OnActiveItemChanged?.Invoke();
         return currentItem;
     }
 

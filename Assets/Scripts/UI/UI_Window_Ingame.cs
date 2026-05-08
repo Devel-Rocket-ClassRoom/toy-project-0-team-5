@@ -14,7 +14,7 @@ public class UI_Window_Ingame : MonoBehaviour
     [SerializeField] private PlayerConsumableItem playerConsumableItem;
     [SerializeField] private PlayerActions playerActions;
 
-    private void Update()
+    private void Start()
     {
         playerConsumableItem.OnItemChanged += Refresh;
         playerActions.OnActiveItemChanged += Refresh;
