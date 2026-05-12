@@ -69,6 +69,8 @@ public class UI_Window_Pause : MonoBehaviour
 
     private void RefreshPassiveItems()
     {
+        if (passiveItemContainer == null) return;
+
         foreach (Transform child in passiveItemContainer)
             Destroy(child.gameObject);
 
