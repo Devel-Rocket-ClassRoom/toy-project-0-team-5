@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$d=$input|ConvertFrom-Json;$f=$d.tool_input.file_path;if($f-like '*.cs'-or$f-like '*.csx'){csharpier format $f}",
+            "shell": "powershell"
+          }
+        ]
+      }
+    ]
+  }
+}
