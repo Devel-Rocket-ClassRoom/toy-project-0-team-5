@@ -85,6 +85,7 @@ public class FloorManager : MonoBehaviour
 
     private void ActivateRoom(RoomController room)
     {
+        
         room.gameObject.SetActive(true);
         _currentRoom = room;
         room.OnRoomEnter();
@@ -92,7 +93,9 @@ public class FloorManager : MonoBehaviour
         {
             case RoomType.Normal:  GameEvents.OnNormalRoomEnter?.Invoke(); break;
             case RoomType.Shop:    GameEvents.OnShopRoomEnter?.Invoke();   break;
-            case RoomType.Boss:    GameEvents.OnBossRoomEnter?.Invoke(_boss); break;
+            case RoomType.Boss:    
+                GameEvents.OnBossRoomEnter?.Invoke(_boss);
+                break;
         }
     }
 

@@ -13,7 +13,7 @@ public class UI_Window_Gameover : MonoBehaviour
         uiManager = manager;
 
         exitButton.onClick.RemoveAllListeners();
-        exitButton.onClick.AddListener(uiManager.ResumeGame);
+        exitButton.onClick.AddListener(uiManager.RestartScene);
     }
 
     public void Show()

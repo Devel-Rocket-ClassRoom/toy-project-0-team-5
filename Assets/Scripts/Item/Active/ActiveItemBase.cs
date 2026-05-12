@@ -20,6 +20,7 @@ namespace ActiveItem
         public Sprite Sprite => _sprite;
 
         public int MaxCharge => _maxCharge;
+        public int CurrentCharge => _currentCharge;
 
         public abstract void Use();
 
